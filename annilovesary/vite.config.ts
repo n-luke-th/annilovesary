@@ -12,4 +12,7 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  server: {
+    host: "127.0.0.1", // also allow access from ip address
+  },
 })
