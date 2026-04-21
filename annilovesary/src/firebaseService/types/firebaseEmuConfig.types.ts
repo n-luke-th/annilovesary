@@ -1,16 +1,16 @@
 export interface EmulatorsConfig {
   auth: {
-    port: number
-  }
+    port: number;
+  };
   firestore: {
-    port: number
-  }
+    port: number;
+  };
   database: {
-    port: number
-  }
+    port: number;
+  };
   ui: {
-    enabled: boolean
-    port: number
-  }
-  singleProjectMode: boolean
+    enabled: boolean;
+    port: number;
+  };
+  singleProjectMode: boolean;
 }
