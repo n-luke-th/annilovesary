@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
+import { themeChange } from "theme-change";
+import { onMounted } from "vue";
+import TopNavBar from "@/components/TopNavBar.vue";
+
+onMounted(() => {
+  themeChange(true);
+});
 </script>
 
 <template>
+  <TopNavBar />
   <!-- <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 

@@ -15,10 +15,12 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "@lucide/vue": "^1.9.0",
     "@tailwindcss/vite": "^4.2.2",
     "daisyui": "^5.5.19",
     "firebase": "^12.12.1",
     "pinia": "^3.0.4",
+    "theme-change": "^2.5.0",
     "vue": "^3.5.33",
     "vue-router": "^5.0.6"
   },

@@ -1,0 +1,67 @@
+<template>
+  <div class="max-lg:collapse border-b my-1 lg:mb-48 shadow-md w-full rounded-md">
+    <input id="navbar-1-toggle" class="peer hidden" type="checkbox" />
+    <label for="navbar-1-toggle" class="fixed inset-0 hidden max-lg:peer-checked:block"></label>
+    <div class="collapse-title navbar">
+      <!-- Start nav content -->
+      <div class="navbar-start">
+        <label for="navbar-1-toggle" class="btn btn-ghost lg:hidden">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h8m-8 6h16"
+            />
+          </svg>
+        </label>
+        <button class="btn btn-ghost text-xl" @click="toLogin">Annilovesary</button>
+        <!-- <nav>
+          <RouterLink to="/">Home</RouterLink>
+          <RouterLink to="/about">About</RouterLink>
+        </nav> -->
+      </div>
+      <!-- Middle nav content -->
+      <div class="navbar-center hidden lg:flex">
+        <QuickSettings />
+      </div>
+
+      <div class="navbar-end">
+        <a class="btn">Profile</a>
+      </div>
+    </div>
+
+    <div class="collapse-content lg:hidden z-1">
+      <div class="flex flex-row justify-around items-center">
+        <div class="flex flex-col items-center">
+          <h3 class="text-xl font-medium select-none mb-1">Theme</h3>
+          <ThemeSelectorContent />
+        </div>
+
+        <!-- <div>
+         ...content...
+        </div> -->
+        <!-- <div>
+         ...content...
+        </div> -->
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import QuickSettings from "@/components/QuickSettings.vue";
+import ThemeSelectorContent from "@/components/themes/ThemeSelectorContent.vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+const toLogin = () => {
+  router.push({ name: "login" });
+};
+</script>

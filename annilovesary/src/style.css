@@ -1,9 +1,11 @@
 @import "tailwindcss";
 @plugin "daisyui" {
   root: "#app";
-  prefix: "d-";
   themes:
+    light,
+    dark,
     valentine --default,
+    cupcake,
     halloween --prefersdark;
 }
 /*
