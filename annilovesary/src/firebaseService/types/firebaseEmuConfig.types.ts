@@ -13,4 +13,7 @@ export interface EmulatorsConfig {
     port: number;
   };
   singleProjectMode: boolean;
+  hosting: {
+    port: number;
+  };
 }

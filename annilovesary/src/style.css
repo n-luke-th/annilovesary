@@ -2,11 +2,13 @@
 @plugin "daisyui" {
   root: "#app";
   themes:
+    valentine --default,
     light,
     dark,
-    valentine --default,
+    sunset,
     cupcake,
-    halloween --prefersdark;
+    halloween --prefersdark,
+    forest;
 }
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
@@ -25,3 +27,12 @@
     border-color: var(--color-gray-200, currentcolor);
   }
 }
+
+/* @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *)); */
+/* Explicit list approach */
+@custom-variant dark (&:where(
+  [data-theme=halloween], [data-theme=halloween] *,
+  [data-theme="dark"], [data-theme="dark"] *,
+  [data-theme=sunset], [data-theme=sunset] *,
+  [data-theme=forest], [data-theme=forest] *
+));

@@ -10,4 +10,5 @@
 - `npm run dev` to start development server.
 - `firebase emulators: start` to run all configured emulators. see emulators configs at [`firebase.json['emulators']](annilovesary/firebase.json)
 - `firebase emulators: start --only firstore,auth` to run only auth and firestore emulators.
+- `firebase init emulators` to force initialization of emulators.
 - `npx @tailwindcss/upgrade --force` to auto upgrade tailwindcss.

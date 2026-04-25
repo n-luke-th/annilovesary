@@ -1,6 +1,6 @@
 <template>
   <ul
-    class="menu shadow-2xl shadow-warning border-3 border-primary-content rounded-box max-w-56 dropdown-content dropdown-bottom space-y-0.5 top-18"
+    class="menu bg-amber-400 dark:bg-base-200 shadow-2xl shadow-sky-600 dark:shadow-warning border-3 border-primary-content rounded-box max-w-56 dropdown-content dropdown-bottom dropdown-hover space-y-0.5 top-18"
     tabindex="-1"
   >
     <li>
@@ -14,6 +14,9 @@
     </li>
     <li>
       <a data-set-theme="halloween">Halloween</a>
+    </li>
+    <li>
+      <a data-set-theme="sunset">Sunset</a>
     </li>
 
     <li>
