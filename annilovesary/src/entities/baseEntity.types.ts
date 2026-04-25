@@ -8,7 +8,7 @@ export interface BaseEntity {
   /**
    * unique id of the doc
    */
-  id: string;
+  id?: string;
   /**
    * @see EntityMetadata
    */

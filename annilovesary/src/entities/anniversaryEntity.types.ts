@@ -7,16 +7,11 @@ import type { BaseEntity } from "./baseEntity.types";
 export interface AnniversaryEntity extends BaseEntity {
   /** check allowed values at {@link AnniversaryType} */
   anniversaryType: AnniversaryType;
+  customTypeValue?: string;
   date: Date;
 }
 
 /**
  * allowed enum to distinguish the anniversary type
  */
-enum AnniversaryType {
-  firstMet,
-  annual,
-  marry,
-  birthday,
-  custom,
-}
+type AnniversaryType = "first_met" | "annual" | "marry" | "birthday" | "custom";

@@ -1,11 +1,11 @@
 <template>
-  <div class="max-lg:collapse border-b my-1 shadow-md w-full rounded-md">
+  <div class="max-md:collapse border-b my-1 shadow-md w-full rounded-md">
     <input id="navbar-1-toggle" class="peer hidden" type="checkbox" />
     <label for="navbar-1-toggle" class="fixed inset-0 hidden max-lg:peer-checked:block"></label>
     <div class="collapse-title navbar">
       <!-- Start nav content -->
       <div class="navbar-start">
-        <label for="navbar-1-toggle" class="btn btn-ghost lg:hidden">
+        <label for="navbar-1-toggle" class="btn btn-ghost md:hidden">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
@@ -28,7 +28,7 @@
         </nav> -->
       </div>
       <!-- Middle nav content -->
-      <div class="navbar-center hidden lg:flex">
+      <div class="navbar-center hidden md:flex">
         <QuickSettings />
       </div>
 
@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <div class="collapse-content lg:hidden z-1">
+    <div class="collapse-content md:hidden z-1">
       <div class="flex flex-row justify-around items-center">
         <div class="flex flex-col items-center">
           <h3 class="text-xl font-medium select-none mb-1">Theme</h3>
