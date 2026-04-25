@@ -30,4 +30,8 @@ const router = createRouter({
   ],
 });
 
+router.beforeEach(async (to, from) => {
+  // add beforeEach callback here.
+});
+
 export default router;

@@ -30,21 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { watch, onMounted } from "vue";
 import ThemeSelector from "@/components/themes/ThemeSelector.vue";
-
-onMounted(() => {
-  console.log("current theme:", localStorage.getItem("theme"));
-});
-
-watch(
-  () => localStorage.getItem("theme"),
-  (newTheme, prevTheme) => {
-    console.log("theme changed to:", newTheme);
-    console.log("theme changed from:", prevTheme);
-  },
-  { immediate: true, deep: true },
-);
 </script>
 
 <style scoped></style>
