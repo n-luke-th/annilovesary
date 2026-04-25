@@ -1,5 +1,5 @@
 <template>
-  <div class="max-lg:collapse border-b my-1 lg:mb-48 shadow-md w-full rounded-md">
+  <div class="max-lg:collapse border-b my-1 shadow-md w-full rounded-md">
     <input id="navbar-1-toggle" class="peer hidden" type="checkbox" />
     <label for="navbar-1-toggle" class="fixed inset-0 hidden max-lg:peer-checked:block"></label>
     <div class="collapse-title navbar">
