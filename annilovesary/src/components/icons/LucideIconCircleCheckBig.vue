@@ -1,5 +1,5 @@
 <!--
-https://lucide.dev/icons/sun-moon
+https://lucide.dev/icons/circle-check-big
 
 @license https://lucide.dev/license
 -->
@@ -20,14 +20,9 @@ defineProps<CustomSvgIconProps>();
     :stroke-width="$props.strokeWidth ?? 2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    class="lucide lucide-sun-moon-icon lucide-sun-moon"
+    class="lucide lucide-circle-check-big-icon lucide-circle-check-big"
   >
-    <path d="M12 2v2" />
-    <path
-      d="M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715"
-    />
-    <path d="M16 12a4 4 0 0 0-4-4" />
-    <path d="m19 5-1.256 1.256" />
-    <path d="M20 12h2" />
+    <path d="M21.801 10A10 10 0 1 1 17 3.335" />
+    <path d="m9 11 3 3L22 4" />
   </svg>
 </template>
