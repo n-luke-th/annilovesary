@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
+import { authGuard, loginRedirect } from "./beforeEachCallBack";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,8 +8,9 @@ const router = createRouter({
     {
       path: "/login",
       name: "login",
-      component: () => import("@/views/LoginView.vue"),
+      component: () => import("@/views/auth/LoginView.vue"),
     },
+    { path: "/home", redirect: "/" },
     {
       path: "/",
       name: "home",
@@ -25,13 +27,24 @@ const router = createRouter({
     {
       path: "/logout",
       name: "logout",
-      component: () => import("@/views/LogoutSuccessView.vue"),
+      component: () => import("@/views/auth/LogoutView.vue"),
+    },
+    {
+      path: "/logout-success",
+      name: "logoutSuccess",
+      component: () => import("@/views/auth/LogoutSuccessView.vue"),
     },
   ],
 });
 
 router.beforeEach(async (to, from) => {
   // add beforeEach callback here.
+  return await authGuard({ from: from, to: to });
+});
+
+router.beforeEach(async (to, from) => {
+  // add beforeEach callback here.
+  return await loginRedirect({ from: from, to: to });
 });
 
 export default router;

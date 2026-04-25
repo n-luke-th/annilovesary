@@ -33,7 +33,7 @@
       </div>
 
       <div class="navbar-end">
-        <a class="btn">Profile</a>
+        <ProfileBtn v-if="accountStore.isAuthenticated" />
       </div>
     </div>
 
@@ -44,10 +44,10 @@
           <ThemeSelectorContent />
         </div>
 
-        <!-- <div>
+        <!-- <div class="flex flex-col items-center">
          ...content...
         </div> -->
-        <!-- <div>
+        <!-- <div class="flex flex-col items-center">
          ...content...
         </div> -->
       </div>
@@ -59,7 +59,10 @@
 import QuickSettings from "@/components/QuickSettings.vue";
 import ThemeSelectorContent from "@/components/themes/ThemeSelectorContent.vue";
 import { useRouter } from "vue-router";
+import ProfileBtn from "@/components/auth/ProfileBtn.vue";
+import { useAccountStore } from "@/stores/account";
 const router = useRouter();
+const accountStore = useAccountStore();
 
 const toLogin = () => {
   router.push({ name: "login" });

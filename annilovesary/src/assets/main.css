@@ -1,1 +1,5 @@
 @import "../style.css";
+
+.menu-bg {
+  @apply bg-amber-400 dark:bg-base-200;
+}

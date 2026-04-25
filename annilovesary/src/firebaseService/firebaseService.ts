@@ -16,6 +16,8 @@ const auth = getAuth(app);
 const firestore = getFirestore(app);
 const realtimeDb = getDatabase(app);
 
+auth.useDeviceLanguage();
+
 if (import.meta.env.DEV) {
   connectAuthEmulator(auth, `http://${LOCALHOST}:${emulatorsConfig.auth.port}`);
   connectFirestoreEmulator(firestore, LOCALHOST, emulatorsConfig.firestore.port);

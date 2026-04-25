@@ -5,7 +5,7 @@ import type { BaseEntity } from "./baseEntity.types";
  @extends BaseEntity
  */
 export interface AnniversaryEntity extends BaseEntity {
-  /** @see AnniversaryType */
+  /** check allowed values at {@link AnniversaryType} */
   anniversaryType: AnniversaryType;
   date: Date;
 }
