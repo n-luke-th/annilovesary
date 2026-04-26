@@ -34,8 +34,7 @@ const router = createRouter({
         {
           path: "details/:docId",
           name: "anniversaryDetail",
-          // props: true,
-          component: AnniversaryDetailView,
+          component: AnniversaryDetailView, // can't use lazy import as it gone back to list view after it touched the detail view
         },
       ],
     },

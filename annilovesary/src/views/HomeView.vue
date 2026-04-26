@@ -7,13 +7,6 @@ import { useRouter } from "vue-router";
 // const accountStore = useAccountStore();
 const router = useRouter();
 
-// async function getData() {
-//   if (accountStore.isAuthenticated && accountStore.user?.uid) {
-//     const result = await anniversaryStore.getAnniversaries();
-//     console.log("anniversaries", result);
-//   }
-// }
-
 function toCreateFormView() {
   router.push({ name: "newAnniversary" });
 }
@@ -38,6 +31,16 @@ function toListView() {
 //     console.log("anniversary updated", result);
 //   }
 // }
+
+function toTestParam() {
+  router.push({
+    name: "test",
+    params: {
+      docId: "a unique doc id",
+      // aNumber: 123
+    },
+  });
+}
 </script>
 
 <template>
@@ -46,11 +49,11 @@ function toListView() {
 
     <button class="btn btn-neutral" @click="toCreateFormView">add</button>
     <!-- <button class="btn btn-primary" @click="updateData">update</button> -->
-    <!-- <button class="btn btn-secondary">Secondary</button>
-    <button class="btn btn-accent">Accent</button>
-    <button class="btn btn-info">Info</button>
-    <button class="btn btn-success">Success</button>
-    <button class="btn btn-warning">Warning</button>
-    <button class="btn btn-error">Error</button> -->
+    <!-- <button class="btn btn-secondary">Secondary</button> -->
+    <!-- <button class="btn btn-accent">Accent</button> -->
+    <button class="btn btn-info" @click="toTestParam">Info to 'test'</button>
+    <!-- <button class="btn btn-success">Success</button> -->
+    <!-- <button class="btn btn-warning">Warning</button> -->
+    <!-- <button class="btn btn-error">Error</button> -->
   </main>
 </template>

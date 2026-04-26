@@ -22,7 +22,6 @@ export const useAnniversaryStore = defineStore("anniversary", {
   state: () => ({
     anniversaries: undefined as AnniversaryEntity[] | undefined,
     anniversary: undefined as AnniversaryEntity | undefined,
-    isAuthenticated: false,
   }),
   getters: {},
   actions: {

@@ -12,7 +12,7 @@ interface CallBackModel {
 export async function authGuard({ to, from }: CallBackModel) {
   const accountStore = useAccountStore();
   await accountStore.checkAuthState();
-  console.log("Navigating to:", to.name, "Auth:", accountStore.isAuthenticated);
+  // console.log("Navigating to:", to.name, "Auth:", accountStore.isAuthenticated);
   if (to.name !== "logoutSuccess" && !accountStore.isAuthenticated && to.name !== "login") {
     return { name: "login", replace: true };
   }
@@ -20,7 +20,7 @@ export async function authGuard({ to, from }: CallBackModel) {
 
 export async function loginRedirect({ to, from }: CallBackModel) {
   const accountStore = useAccountStore();
-  console.log("Navigating to:", to.name, "Auth:", accountStore.isAuthenticated);
+  // console.log("Navigating to:", to.name, "Auth:", accountStore.isAuthenticated);
   if (accountStore.isAuthenticated && to.name === "login") {
     return { name: "home", replace: true };
   }

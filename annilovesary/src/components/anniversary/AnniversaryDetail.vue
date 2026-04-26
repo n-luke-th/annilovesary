@@ -4,6 +4,8 @@
       <div class="card-body">
         <h2 class="card-title text-2xl font-bold mb-4">Anniversary Details</h2>
 
+        <code>{{ data.id }}</code>
+
         <form class="space-y-4">
           <div class="form-control w-full">
             <label class="label">
@@ -84,25 +86,20 @@ const convertedDate = computed({
   },
 });
 
-// function toDetailPage() {
-//   router.push({
-//     name: "AnniversaryDetail",
-//     params: {
-//       docId: props.data.id,
-//     },
-//   });
-// }
-
 function toDetailPage() {
-  // if (!props.data?.id) {
-  //   console.error("Cannot navigate: docId is missing");
-  //   alert("cannot");
-  //   return;
-  // }
+  if (!props.data?.id) {
+    console.error("Cannot navigate: docId is missing");
+    return;
+  }
+
+  // console.warn("redirect to anniversary detail page with id:", docId);
 
   router.push({
     name: "anniversaryDetail",
     // params: { docId: "izwS39E68mWwJFa1yqxo" },
+    params: {
+      docId: props.data?.id,
+    },
   });
 }
 </script>
