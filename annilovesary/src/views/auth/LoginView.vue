@@ -19,7 +19,7 @@
           <label class="label">Email</label>
           <input
             type="email"
-            class="input w-full bg-base-content dark:bg-accent-content"
+            class="input-field-bg"
             placeholder="Email"
             autocomplete="username"
             v-model.trim="formData.email"
@@ -28,7 +28,7 @@
           <label class="label">Password</label>
           <input
             type="password"
-            class="input w-full bg-base-content dark:bg-accent-content"
+            class="input-field-bg"
             placeholder="Password"
             autocomplete="current-password"
             v-model="formData.password"

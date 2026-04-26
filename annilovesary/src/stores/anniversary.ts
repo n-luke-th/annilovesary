@@ -1,7 +1,17 @@
 import { defineStore } from "pinia";
-import { collection, getDoc, doc, addDoc, getDocs, FirestoreError } from "firebase/firestore";
+import {
+  collection,
+  getDoc,
+  doc,
+  addDoc,
+  getDocs,
+  FirestoreError,
+  deleteDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { firestore } from "@/firebaseService/firebaseService";
-import type { AnniversaryEntity } from "@/entities/anniversaryEntity.types";
+import type { AnniversaryWriteEntity, AnniversaryEntity } from "@/entities/anniversaryEntity.types";
 import { FirestoreCollection } from "@/common/firestoreCollections";
 import { FirebaseError } from "firebase/app";
 
@@ -16,7 +26,7 @@ export const useAnniversaryStore = defineStore("anniversary", {
   }),
   getters: {},
   actions: {
-    async createNewAnniversary(data: AnniversaryEntity, userId: string): Promise<string> {
+    async createNewAnniversary(data: AnniversaryWriteEntity): Promise<string> {
       try {
         const collectionRef = collection(firestore, FirestoreCollection.ANNIVERSARY.collectionName);
         const docRef = await addDoc(collectionRef, data);
@@ -36,6 +46,7 @@ export const useAnniversaryStore = defineStore("anniversary", {
         const docSnapshot = await getDoc(docRef);
         if (docSnapshot.exists()) {
           const data = docSnapshot.data();
+          data.id = docSnapshot.id;
           data.mt.createdAt = data.mt.createdAt.toDate();
           data.mt.updatedAt = data.mt.updatedAt.toDate();
           data.date = data.date.toDate();
@@ -54,17 +65,19 @@ export const useAnniversaryStore = defineStore("anniversary", {
       }
     },
 
-    async getAnniversaries(userId: string): Promise<AnniversaryEntity[] | undefined> {
+    async getAnniversaries(): Promise<AnniversaryEntity[] | undefined> {
       try {
         const collectionRef = collection(firestore, FirestoreCollection.ANNIVERSARY.collectionName);
         const snapshot = await getDocs(collectionRef);
         const anniversaries = snapshot.docs.map((doc) => {
           const data = doc.data();
+          data.id = doc.id;
           data.mt.createdAt = data.mt.createdAt.toDate();
           data.mt.updatedAt = data.mt.updatedAt.toDate();
           data.date = data.date.toDate();
           return data;
         }) as AnniversaryEntity[];
+        this.anniversaries = anniversaries;
 
         return anniversaries;
       } catch (error) {
@@ -77,6 +90,13 @@ export const useAnniversaryStore = defineStore("anniversary", {
       }
     },
 
-    async updateAnniversary(docId: string, updatedData: AnniversaryEntity) {},
+    async updateAnniversary(docId: string, updatedData: AnniversaryWriteEntity) {
+      const docRef = doc(firestore, FirestoreCollection.ANNIVERSARY.collectionName, docId);
+      await updateDoc(docRef, updatedData);
+    },
+
+    async deleteAnniversary(docId: string) {
+      await deleteDoc(doc(firestore, FirestoreCollection.ANNIVERSARY.collectionName, docId));
+    },
   },
 });

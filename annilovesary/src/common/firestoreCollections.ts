@@ -4,6 +4,11 @@ export const FirestoreCollection = {
     desc: undefined,
     visibility: { admin: true, public: false, restricted: true },
   },
+  ANNIVERSARY_EVENT: {
+    collectionName: "anniversary_events",
+    desc: undefined,
+    visibility: { admin: true, public: false, restricted: true },
+  },
   OTHER_USER_DATA: {
     collectionName: "other_user_data",
     desc: undefined,

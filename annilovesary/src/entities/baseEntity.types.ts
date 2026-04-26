@@ -4,11 +4,11 @@
  * @property id: unique id of the doc
  * @property mt: document metadata
  */
-export interface BaseEntity {
+export interface BaseReadEntity {
   /**
    * unique id of the doc
    */
-  id?: string;
+  id: string;
   /**
    * @see EntityMetadata
    */
@@ -26,4 +26,11 @@ interface EntityMetadata {
   updatedAt: Date;
   createdByUid: string;
   updatedByUid: string;
+}
+
+export interface BaseWriteEntity {
+  /**
+   * @see EntityMetadata
+   */
+  mt: EntityMetadata;
 }

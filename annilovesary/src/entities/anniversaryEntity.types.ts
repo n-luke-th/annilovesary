@@ -1,17 +1,30 @@
-import type { BaseEntity } from "./baseEntity.types";
+import type { BaseWriteEntity, BaseReadEntity } from "./baseEntity.types";
 /**
  data model for any documents in `anniversaries` collection
 
- @extends BaseEntity
+ @extends BaseReadEntity
  */
-export interface AnniversaryEntity extends BaseEntity {
+export interface AnniversaryEntity extends BaseReadEntity {
   /** check allowed values at {@link AnniversaryType} */
   anniversaryType: AnniversaryType;
-  customTypeValue?: string;
+  customTypeValue: string | null;
   date: Date;
+  desc: string | null;
 }
 
 /**
- * allowed enum to distinguish the anniversary type
+ * allowed values to distinguish the anniversary type
  */
 type AnniversaryType = "first_met" | "annual" | "marry" | "birthday" | "custom";
+
+/**
+ data model for create any documents in `anniversaries` collection
+ @extends BaseWriteEntity
+ */
+export interface AnniversaryWriteEntity extends BaseWriteEntity {
+  anniversaryType: AnniversaryType;
+  customTypeValue: string | null;
+  date: Date;
+  desc: string | null;
+  [key: string]: unknown;
+}
