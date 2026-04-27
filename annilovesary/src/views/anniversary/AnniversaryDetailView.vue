@@ -1,11 +1,13 @@
 <template>
-  <div>
-    <AnniversaryDetail :data="data" />
+  <DetailsPageLayout>
+    <div>
+      <AnniversaryDetail :data="data" />
 
-    {{ diffDays }} Days since anniversary date.
+      {{ diffDays }} Days since anniversary date.
 
-    {{ $route.params }}
-  </div>
+      {{ $route.params }}
+    </div>
+  </DetailsPageLayout>
 </template>
 
 <script setup lang="ts">
@@ -14,6 +16,7 @@ import AnniversaryDetail from "@/components/anniversary/AnniversaryDetail.vue";
 import { useRoute } from "vue-router";
 import { computed, onMounted, reactive } from "vue";
 import { useAnniversaryStore } from "@/stores/anniversary";
+import DetailsPageLayout from "@/layouts/DetailsPageLayout.vue";
 const route = useRoute();
 const data = reactive<AnniversaryEntity>({
   id: "",

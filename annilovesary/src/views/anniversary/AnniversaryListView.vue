@@ -1,8 +1,7 @@
 <template>
-  <button type="button" class="btn btn-outline mx-15 mt-10 mb-1" @click="goBack">Back</button>
-  <div class="flex flex-col items-center my-3">
+  <DetailsPageLayout>
     <div v-for="value in anniversaries" :key="value.id"><AnniversaryDetail :data="value" /></div>
-  </div>
+  </DetailsPageLayout>
 </template>
 
 <script setup lang="ts">
@@ -10,12 +9,11 @@ import type { AnniversaryEntity } from "@/entities/anniversaryEntity.types";
 import { useAccountStore } from "@/stores/account";
 import { useAnniversaryStore } from "@/stores/anniversary";
 import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
 import AnniversaryDetail from "@/components/anniversary/AnniversaryDetail.vue";
+import DetailsPageLayout from "@/layouts/DetailsPageLayout.vue";
 
 const anniversaryStore = useAnniversaryStore();
 const accountStore = useAccountStore();
-const router = useRouter();
 
 const anniversaries = ref<AnniversaryEntity[]>([]);
 
@@ -27,10 +25,6 @@ async function getData() {
     }
     console.log("anniversaries", result);
   }
-}
-
-function goBack() {
-  router.back();
 }
 
 onMounted(() => {
