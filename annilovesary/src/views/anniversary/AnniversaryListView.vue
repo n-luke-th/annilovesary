@@ -1,6 +1,8 @@
 <template>
-  <DetailsPageLayout>
-    <div v-for="value in anniversaries" :key="value.id"><AnniversaryDetail :data="value" /></div>
+  <DetailsPageLayout
+    ><div class="flex flex-col lg:flex-row flex-wrap justify-around gap-2 space-x-1">
+      <div v-for="value in anniversaries" :key="value.id"><AnniversaryDetail :data="value" /></div>
+    </div>
   </DetailsPageLayout>
 </template>
 

@@ -3,8 +3,9 @@
     <div class="card w-full max-w-lg shadow-xl">
       <div class="card-body">
         <h2 class="card-title text-2xl font-bold mb-4">Anniversary Details</h2>
-
-        <code>{{ data.id }}</code>
+        <div>
+          <b>ID: </b><code>{{ data.id }}</code>
+        </div>
 
         <form class="space-y-4">
           <div class="form-control w-full">
@@ -25,15 +26,15 @@
             </select>
           </div>
 
-          <div class="form-control w-full">
+          <div class="form-control w-full" v-if="data.anniversaryType === 'custom'">
             <label class="label">
-              <span class="label-text font-semibold">Custom Type value (optional)</span>
+              <span class="label-text font-semibold">Custom Type value</span>
             </label>
             <input
               :value="data.customTypeValue"
               type="text"
               placeholder="no custom type value yet..."
-              class="input-field-bg"
+              class="input-field-bg select-all"
               readonly="true"
             />
           </div>
@@ -42,7 +43,12 @@
             <label class="label">
               <span class="label-text font-semibold">Anniversary Date</span>
             </label>
-            <input :value="convertedDate" type="text" class="input-field-bg" readonly="true" />
+            <input
+              :value="convertedDate"
+              type="text"
+              class="input-field-bg select-all"
+              readonly="true"
+            />
           </div>
 
           <fieldset class="fieldset">
