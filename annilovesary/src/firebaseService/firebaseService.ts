@@ -19,7 +19,9 @@ const realtimeDb = getDatabase(app);
 auth.useDeviceLanguage();
 
 if (import.meta.env.DEV) {
-  connectAuthEmulator(auth, `http://${LOCALHOST}:${emulatorsConfig.auth.port}`);
+  connectAuthEmulator(auth, `http://${LOCALHOST}:${emulatorsConfig.auth.port}`, {
+    disableWarnings: true,
+  });
   connectFirestoreEmulator(firestore, LOCALHOST, emulatorsConfig.firestore.port);
   connectDatabaseEmulator(realtimeDb, LOCALHOST, emulatorsConfig.database.port);
 }
