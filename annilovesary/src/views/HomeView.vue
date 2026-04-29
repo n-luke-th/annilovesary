@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // import { useAccountStore } from "@/stores/account";
 // import { useAnniversaryStore } from "@/stores/anniversary";
+import { CirclePlus } from "@lucide/vue";
 import { useRouter } from "vue-router";
 
 // const anniversaryStore = useAnniversaryStore();
@@ -56,4 +57,19 @@ function toTestParam() {
     <!-- <button class="btn btn-warning">Warning</button> -->
     <!-- <button class="btn btn-error">Error</button> -->
   </main>
+
+  <div class="fab">
+    <!-- a focusable div with tabindex is necessary to work on all browsers. role="button" is necessary for accessibility -->
+    <div tabindex="0" role="button" class="btn btn-lg btn-circle btn-info">
+      <CirclePlus />
+    </div>
+
+    <!-- close button should not be focusable so it can close the FAB when clicked. It's just a visual placeholder -->
+    <div class="fab-close">Close <span class="btn btn-circle btn-lg btn-error">✕</span></div>
+
+    <!-- buttons that show up when FAB is open -->
+    <div>Label A <button class="btn btn-lg btn-circle">A</button></div>
+    <div>Label B <button class="btn btn-lg btn-circle">B</button></div>
+    <div>Label C <button class="btn btn-lg btn-circle">C</button></div>
+  </div>
 </template>

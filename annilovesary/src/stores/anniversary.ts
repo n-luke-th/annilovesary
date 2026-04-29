@@ -1,19 +1,9 @@
 import { defineStore } from "pinia";
-import {
-  collection,
-  getDoc,
-  doc,
-  addDoc,
-  getDocs,
-  FirestoreError,
-  deleteDoc,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
-import { firestore } from "@/firebaseService/firebaseService";
-import type { AnniversaryWriteEntity, AnniversaryEntity } from "@/entities/anniversaryEntity.types";
-import { FirestoreCollection } from "@/common/firestoreCollections";
+import { FirestoreError } from "firebase/firestore";
+import type { AnniversaryEntity } from "@/entities/anniversaryEntity.types";
 import { FirebaseError } from "firebase/app";
+import { anniversaryService } from "@/firebaseService/firestore/services";
+import type { CreateDoc } from "@/firebaseService/firestore/types/createDoc.types";
 
 /**
  * option style store for managing anniversary
@@ -25,11 +15,10 @@ export const useAnniversaryStore = defineStore("anniversary", {
   }),
   getters: {},
   actions: {
-    async createNewAnniversary(data: AnniversaryWriteEntity): Promise<string> {
+    async createNewAnniversary(data: CreateDoc<AnniversaryEntity>): Promise<string> {
       try {
-        const collectionRef = collection(firestore, FirestoreCollection.ANNIVERSARY.collectionName);
-        const docRef = await addDoc(collectionRef, data);
-        return docRef.id;
+        const anniversaryId = anniversaryService.create(data);
+        return anniversaryId;
       } catch (error) {
         console.error("anniversary store:", error);
         if (error instanceof FirebaseError) {
@@ -41,19 +30,12 @@ export const useAnniversaryStore = defineStore("anniversary", {
     },
     async getAnniversary(docId: string): Promise<AnniversaryEntity | undefined> {
       try {
-        const docRef = doc(firestore, FirestoreCollection.ANNIVERSARY.collectionName, docId);
-        const docSnapshot = await getDoc(docRef);
-        if (docSnapshot.exists()) {
-          const data = docSnapshot.data();
-          data.id = docSnapshot.id;
-          data.mt.createdAt = data.mt.createdAt.toDate();
-          data.mt.updatedAt = data.mt.updatedAt.toDate();
-          data.date = data.date.toDate();
-          this.anniversary = data as AnniversaryEntity;
-        } else {
-          this.anniversary = undefined;
+        const anniversary = await anniversaryService.getById(docId);
+        if (anniversary) {
+          this.anniversary = anniversary;
+          return this.anniversary;
         }
-        return this.anniversary;
+        return undefined;
       } catch (error) {
         if (error instanceof FirestoreError) {
           console.error(`${error.code}: ${error.message}`);
@@ -66,19 +48,12 @@ export const useAnniversaryStore = defineStore("anniversary", {
 
     async getAnniversaries(): Promise<AnniversaryEntity[] | undefined> {
       try {
-        const collectionRef = collection(firestore, FirestoreCollection.ANNIVERSARY.collectionName);
-        const snapshot = await getDocs(collectionRef);
-        const anniversaries = snapshot.docs.map((doc) => {
-          const data = doc.data();
-          data.id = doc.id;
-          data.mt.createdAt = data.mt.createdAt.toDate();
-          data.mt.updatedAt = data.mt.updatedAt.toDate();
-          data.date = data.date.toDate();
-          return data;
-        }) as AnniversaryEntity[];
-        this.anniversaries = anniversaries;
-
-        return anniversaries;
+        const anniversaries = await anniversaryService.getAll();
+        if (anniversaries) {
+          this.anniversaries = anniversaries;
+          return anniversaries;
+        }
+        return undefined;
       } catch (error) {
         if (error instanceof FirestoreError) {
           console.error(`${error.code}: ${error.message}`);
@@ -89,13 +64,12 @@ export const useAnniversaryStore = defineStore("anniversary", {
       }
     },
 
-    async updateAnniversary(docId: string, updatedData: AnniversaryWriteEntity) {
-      const docRef = doc(firestore, FirestoreCollection.ANNIVERSARY.collectionName, docId);
-      await updateDoc(docRef, updatedData);
+    async updateAnniversary(docId: string, updatedData: Partial<AnniversaryEntity>): Promise<void> {
+      await anniversaryService.update(docId, updatedData);
     },
 
     async deleteAnniversary(docId: string) {
-      await deleteDoc(doc(firestore, FirestoreCollection.ANNIVERSARY.collectionName, docId));
+      await anniversaryService.delete(docId);
     },
   },
 });

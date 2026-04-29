@@ -1,17 +1,9 @@
-import type { BaseWriteEntity, BaseReadEntity } from "./baseEntity.types";
+import type { BaseEntity } from "./baseEntity.types";
 /**
- data model for any documents in `anniversary_events` collection
+ data model for documents in `anniversary_events` collection
 
- @extends BaseReadEntity
+ @extends BaseEntity
  */
-export interface AnniversaryEventEntity extends BaseReadEntity {
-  [key: string]: unknown;
-}
-
-/**
- data model for create any documents in `anniversary_events` collection
- @extends BaseWriteEntity
- */
-export interface AnniversaryEventWriteEntity extends BaseWriteEntity {
+export interface AnniversaryEntity extends BaseEntity {
   [key: string]: unknown;
 }

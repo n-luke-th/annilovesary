@@ -1,36 +1,14 @@
-/**
- * base data model for any Firestore collections
- *
- * @property id: unique id of the doc
- * @property mt: document metadata
- */
-export interface BaseReadEntity {
-  /**
-   * unique id of the doc
-   */
-  id: string;
-  /**
-   * @see EntityMetadata
-   */
-  mt: EntityMetadata;
-}
-/**
- * custom document metadata
- * @property createdAt: the creation timestampz of the doc
- * @property updatedAt: the last updated timestampz of the doc
- * @property createdByUid: uid of user who created the doc
- * @property updatedByUid: uid of user who last updated the doc
- */
-interface EntityMetadata {
-  createdAt: Date;
-  updatedAt: Date;
-  createdByUid: string;
-  updatedByUid: string;
-}
+import type { Timestamp } from "firebase/firestore";
 
-export interface BaseWriteEntity {
-  /**
-   * @see EntityMetadata
-   */
-  mt: EntityMetadata;
+/**
+ * Interface for the base data model for any Firestore collections.
+ *
+ * @property id?: the unique identifier of a document once retrieved
+ * @property createdAt: the creation server timestamp of the doc
+ * @property updatedAt: the last updated server timestamp of the doc
+ */
+export interface BaseEntity {
+  id?: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 }

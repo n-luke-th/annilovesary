@@ -67,7 +67,8 @@
 </template>
 
 <script setup lang="ts">
-import { type AnniversaryWriteEntity } from "@/entities/anniversaryEntity.types";
+import { type AnniversaryEntity } from "@/entities/anniversaryEntity.types";
+import type { CreateDoc } from "@/firebaseService/firestore/types/createDoc.types";
 import DetailsPageLayout from "@/layouts/DetailsPageLayout.vue";
 import { useAccountStore } from "@/stores/account";
 import { useAnniversaryStore } from "@/stores/anniversary";
@@ -78,17 +79,12 @@ const anniversaryStore = useAnniversaryStore();
 const accountStore = useAccountStore();
 // const router = useRouter();
 
-const formData = reactive<AnniversaryWriteEntity>({
+const formData = reactive<CreateDoc<AnniversaryEntity>>({
+  partnerIds: [],
   anniversaryType: "custom",
   customTypeValue: null,
   date: new Date(),
   desc: null,
-  mt: {
-    createdByUid: accountStore.user?.uid!,
-    updatedByUid: accountStore.user?.uid!,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
 });
 
 const formattedDate = computed({

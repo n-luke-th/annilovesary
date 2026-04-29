@@ -1,6 +1,6 @@
 <template>
   <DetailsPageLayout>
-    <div class="flex flex-col md:flex-row justify-around items-start gap-2">
+    <div class="flex flex-col md:flex-row justify-around items-center-safe md:items-start gap-2">
       <AnniversaryDetail :data="data" />
       <div class="my-2 text-gray-500">
         {{ diffDays }} Days since anniversary date.
@@ -28,19 +28,17 @@ import { useRoute } from "vue-router";
 import { computed, onMounted, onUnmounted, reactive, ref } from "vue";
 import { useAnniversaryStore } from "@/stores/anniversary";
 import DetailsPageLayout from "@/layouts/DetailsPageLayout.vue";
+import { Timestamp } from "firebase/firestore";
 const route = useRoute();
 const data = reactive<AnniversaryEntity>({
   id: "",
+  partnerIds: [],
   customTypeValue: "null",
   desc: "null",
   anniversaryType: "custom",
   date: new Date(),
-  mt: {
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    createdByUid: "",
-    updatedByUid: "",
-  },
+  createdAt: Timestamp.fromDate(new Date()),
+  updatedAt: Timestamp.fromDate(new Date()),
 });
 const anniversaryStore = useAnniversaryStore();
 let timer: number;
