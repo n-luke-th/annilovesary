@@ -85,7 +85,10 @@ const d = ref(new Date());
 const convertedDate = computed({
   get: () => {
     const date = props.data.date;
-    return `${date.getFullYear()}-${date.getMonth().toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+    if (date instanceof Date) {
+      return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")} ${props.data.isDateIncludeTime && `@${date.getHours()}:${date.getMinutes()}`}`;
+    }
+    return "unknown";
   },
   set: (val) => {
     d.value = new Date(val);

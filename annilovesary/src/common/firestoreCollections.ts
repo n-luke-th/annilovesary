@@ -5,3 +5,5 @@ export type FirestoreCollectionName =
   | "users"
   | "invite"
   | "notifications";
+
+export type FirestoreSubCollectionName = "claims";

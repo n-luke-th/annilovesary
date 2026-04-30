@@ -40,7 +40,19 @@
               <label class="label">
                 <span class="label-text font-semibold">Anniversary Date</span>
               </label>
-              <input v-model="formattedDate" type="date" class="input-field-bg" required="true" />
+              <div class="my-2">
+                <label class="label">
+                  Include Time
+                  <input type="checkbox" v-model="formattedIncludeTime" class="toggle" />
+                  {{ (!!formData.isDateIncludeTime).toString().toUpperCase() }}
+                </label>
+              </div>
+              <input
+                v-model="formattedDate"
+                :type="dateSelectorType"
+                class="input-field-bg"
+                required="true"
+              />
             </div>
 
             <fieldset class="fieldset">
@@ -83,9 +95,17 @@ const formData = reactive<CreateDoc<AnniversaryEntity>>({
   partnerIds: [],
   anniversaryType: "custom",
   customTypeValue: null,
+  isDateIncludeTime: null,
   date: new Date(),
   desc: null,
 });
+
+const formattedIncludeTime = computed({
+  get: () => !!formData.isDateIncludeTime,
+  set: (v) => (formData.isDateIncludeTime = v),
+});
+
+const dateSelectorType = computed(() => (formData.isDateIncludeTime ? "datetime-local" : "date"));
 
 const formattedDate = computed({
   get: () => formData.date.toISOString().slice(0, 10),

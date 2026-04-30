@@ -20,6 +20,7 @@ import {
   getDocFromServer,
   Timestamp,
   serverTimestamp,
+  runTransaction,
 } from "firebase/firestore";
 import type {
   DocumentData,
@@ -27,9 +28,13 @@ import type {
   UpdateData,
   FirestoreDataConverter,
   SnapshotOptions,
+  Transaction,
 } from "firebase/firestore";
 import { firestore as db } from "@/firebaseService/firebaseService";
-import type { FirestoreCollectionName } from "@/common/firestoreCollections";
+import type {
+  FirestoreCollectionName,
+  FirestoreSubCollectionName,
+} from "@/common/firestoreCollections";
 import type { QueryBehavior } from "./types/queryBehavior.types";
 
 export class FirestoreService<T extends BaseEntity> {
@@ -84,6 +89,21 @@ export class FirestoreService<T extends BaseEntity> {
         return { ...transformed, id: snapshot.id } as T;
       },
     };
+  }
+
+  /**
+   * Helper to get a typed Document Reference for a specific ID in this collection
+   */
+  getDocRef(id: string) {
+    return doc(this.collectionRef, id);
+  }
+
+  /**
+   * Access a sub-collection document with type safety
+   * usage: service.getSubDocRef("inviteId", "claims", "userId")
+   */
+  getSubDocRef(id: string, subCollection: string, subId: string) {
+    return doc(this.collectionRef, id, subCollection, subId);
   }
 
   /**
@@ -160,5 +180,21 @@ export class FirestoreService<T extends BaseEntity> {
   async delete(id: string): Promise<void> {
     const docRef = doc(this.collectionRef, id);
     await deleteDoc(docRef);
+  }
+
+  /**
+   * Raw Firestore transaction runner
+   */
+  async runAtomic<R>(updateFunction: (transaction: Transaction) => Promise<R>): Promise<R> {
+    return await runTransaction(db, updateFunction);
+  }
+
+  /**
+   * Gets a reference to a sub-collection document WITHOUT the parent's converter.
+   * This prevents the "Argument is not assignable to <Entity>" error.
+   */
+  getUntypedSubDocRef(id: string, subCollection: FirestoreSubCollectionName, subId: string) {
+    // We use 'db' and strings directly to avoid inheriting the 'this.collectionRef' types
+    return doc(db, this.collectionRef.path, id, subCollection, subId);
   }
 }

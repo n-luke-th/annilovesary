@@ -36,6 +36,7 @@ const data = reactive<AnniversaryEntity>({
   customTypeValue: "null",
   desc: "null",
   anniversaryType: "custom",
+  isDateIncludeTime: null,
   date: new Date(),
   createdAt: Timestamp.fromDate(new Date()),
   updatedAt: Timestamp.fromDate(new Date()),
@@ -85,6 +86,7 @@ async function getData(docId: string) {
     const result = await anniversaryStore.getAnniversary(docId as string);
     if (result) {
       Object.assign(data, result); // Cleaner way to update reactive object
+      console.log(data);
     } else {
       console.error("No record found for ID:", docId);
     }
