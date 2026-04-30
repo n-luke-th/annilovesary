@@ -9,7 +9,7 @@ import type { BaseEntity } from "../baseEntity.types";
   */
 export interface InviteEntity<ExtraDataT = Record<string, unknown> | null> extends BaseEntity {
   generatedByUserId: string;
-  // generatedAt: Timestamp; => omit as in the service file will auto insert `createdAt` at the creation time.
+  // generatedAt: Timestamp; => omitted as in the service file will auto insert `createdAt` at the creation time.
 
   /** check allowed values at {@link InviteType} */
   inviteType: InviteType;

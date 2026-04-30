@@ -86,7 +86,7 @@ const convertedDate = computed({
   get: () => {
     const date = props.data.date;
     if (date instanceof Date) {
-      return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")} ${props.data.isDateIncludeTime && `@${date.getHours()}:${date.getMinutes()}`}`;
+      return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")} ${props.data.isDateIncludeTime === true ? `@${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")} hrs` : ""}`;
     }
     return "unknown";
   },
