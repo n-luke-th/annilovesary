@@ -1,7 +1,9 @@
 <template>
   <DetailsPageLayout
-    ><div class="flex flex-col lg:flex-row flex-wrap justify-around gap-2 space-x-1">
-      <div v-for="value in anniversaries" :key="value.id"><AnniversaryDetail :data="value" /></div>
+    ><div class="flex flex-col lg:flex-row flex-wrap justify-around items-center gap-2 space-x-1">
+      <div v-for="value in anniversaries" :key="value.id">
+        <AnniversaryDetail :data="value" :show-buttom-btn="true" />
+      </div>
     </div>
   </DetailsPageLayout>
 </template>
@@ -13,6 +15,9 @@ import { useAnniversaryStore } from "@/stores/anniversary";
 import { onMounted, ref } from "vue";
 import AnniversaryDetail from "@/components/anniversary/AnniversaryDetail.vue";
 import DetailsPageLayout from "@/layouts/DetailsPageLayout.vue";
+import { useTitle } from "@vueuse/core";
+
+useTitle("Your anniversaries");
 
 const anniversaryStore = useAnniversaryStore();
 const accountStore = useAccountStore();

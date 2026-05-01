@@ -84,9 +84,11 @@ import type { CreateDoc } from "@/firebaseService/firestore/types/createDoc.type
 import DetailsPageLayout from "@/layouts/DetailsPageLayout.vue";
 import { useAccountStore } from "@/stores/account";
 import { useAnniversaryStore } from "@/stores/anniversary";
+import { useTitle } from "@vueuse/core";
 import { computed, reactive, useTemplateRef } from "vue";
 // import { useRouter } from "vue-router";
 
+useTitle("New Anniversary");
 const anniversaryStore = useAnniversaryStore();
 const accountStore = useAccountStore();
 // const router = useRouter();

@@ -1,10 +1,20 @@
 <template>
-  <div class="flex items-center justify-center my-5">
-    <div class="card w-full max-w-lg shadow-xl">
+  <div class="flex items-center justify-center my-5 w-lg">
+    <div
+      class="card w-full max-w-lg shadow-md shadow-current border border-amber-400 dark:border-sky-900"
+    >
       <div class="card-body">
         <h2 class="card-title text-2xl font-bold mb-4">Anniversary Details</h2>
         <div>
           <b>ID: </b><code>{{ data.id }}</code>
+          <p>
+            Created:
+            {{
+              data.createdAt instanceof Date
+                ? `${(data.createdAt as Date).toDateString()} at ${(data.createdAt as Date).toLocaleTimeString()}`
+                : data.createdAt
+            }}
+          </p>
         </div>
 
         <form class="space-y-4">
@@ -62,8 +72,11 @@
               readonly="true"
             ></textarea>
           </fieldset>
-          <div class="card-actions justify-end mt-6">
+          <div class="card-actions justify-end mt-6" v-if="props.showButtomBtn">
             <button class="btn btn-primary" @click="toDetailPage">More Details</button>
+          </div>
+          <div>
+            <small v-if="data.updatedAt">last updated: {{ data.updatedAt }}</small>
           </div>
         </form>
       </div>
@@ -78,6 +91,7 @@ import { useRouter } from "vue-router";
 
 const props = defineProps<{
   data: AnniversaryEntity;
+  showButtomBtn?: boolean;
 }>();
 const router = useRouter();
 const d = ref(new Date());
