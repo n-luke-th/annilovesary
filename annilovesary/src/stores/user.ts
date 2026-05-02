@@ -14,36 +14,36 @@ import { ref } from "vue";
  *
  * authenticated user data is managed by Firebase auth, which refer in the store as `authUser`.
  *
- * user data is data that can't be stored in Firebase auth, such as the selected anniversary and partner info, which is stored in `users` collection in Firestore, and refer in the store as `user`.
+ * user data is data that can't be stored in Firebase auth, such as the selected anniversary and partner info, which is stored in `users` collection in Firestore, and refer in the store as `docUser`.
  *
  * @remarks (migrated and combined from account store as it's more accurate to describe the data it manages)
  */
 export const useUserStore = defineStore("user", () => {
   const authUser = ref<User | undefined>();
   const isAuthenticated = ref<boolean>(false);
-  const user = ref<UserEntity | undefined>();
+  const docUser = ref<UserEntity | undefined>();
   const userPref = ref<UserPref | undefined>();
   const userPartner = ref<PartnerInfo | undefined>();
 
   function resetUserStore() {
-    user.value = undefined;
+    docUser.value = undefined;
     userPref.value = undefined;
     userPartner.value = undefined;
     authUser.value = undefined;
     isAuthenticated.value = false;
   }
 
-  function checkIsCorrectUser(userId: string) {
-    if (auth.currentUser?.uid !== userId) {
+  function _checkIsCorrectUser(userId: string) {
+    if (auth.currentUser?.uid !== userId || auth.currentUser.uid != authUser.value?.uid) {
       throw new Error("unauthorized access to user data!");
     }
   }
 
   function setAll(usrObj: UserEntity): UserEntity {
-    user.value = usrObj;
+    docUser.value = usrObj;
     userPartner.value = usrObj.partnerInfo;
     userPref.value = usrObj.userPref;
-    return user.value;
+    return docUser.value;
   }
   function setPref(usrPref: UserPref): UserPref {
     userPref.value = usrPref;
@@ -65,7 +65,7 @@ export const useUserStore = defineStore("user", () => {
     }
   };
 
-  async function checkAuthState() {
+  async function checkAuthState(): Promise<boolean> {
     return new Promise((resolve) => {
       onAuthStateChanged(auth, (u) => {
         if (u) {
@@ -84,7 +84,7 @@ export const useUserStore = defineStore("user", () => {
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
       authUser.value = result.user;
-      await createIfNotExist(result.user.uid);
+      await createDocUserIfNotExist(result.user.uid);
       console.log("user store: login successful");
     } catch (error) {
       // console.warn(`email + pwd: '${email}', '${password}'`);
@@ -115,11 +115,11 @@ export const useUserStore = defineStore("user", () => {
    * @param userId
    * @returns
    */
-  async function createIfNotExist(userId: string): Promise<string | UserEntity> {
+  async function createDocUserIfNotExist(userId: string): Promise<string | UserEntity> {
     const userObject = await userService.getById(userId);
     if (userObject) {
       setAll(userObject);
-      return user.value!;
+      return docUser.value!;
     } else {
       const newDoc: CreateDoc<UserEntity> = {
         selectedAnniversaryId: null,
@@ -139,26 +139,28 @@ export const useUserStore = defineStore("user", () => {
   }
 
   async function getUser(userId: string): Promise<UserEntity> {
-    checkIsCorrectUser(userId);
-    if (typeof user.value !== "undefined") {
-      return user.value.id === userId ? user.value : Promise.reject(new Error("user id mismatch!"));
+    _checkIsCorrectUser(userId);
+    if (typeof docUser.value !== "undefined") {
+      return docUser.value.id === userId
+        ? docUser.value
+        : Promise.reject(new Error("user id mismatch!"));
     }
     const userObj = await userService.getById(userId);
     if (userObj) {
-      user.value = userObj;
-      return user.value;
+      docUser.value = userObj;
+      return docUser.value;
     } else {
       throw new Error(`user with id ${userId} not found!`);
     }
   }
 
   async function getUserPref(userId: string): Promise<UserPref | undefined> {
-    checkIsCorrectUser(userId);
+    _checkIsCorrectUser(userId);
     if (typeof userPref.value !== "undefined") {
       return userPref.value;
     }
-    if (typeof user.value !== "undefined") {
-      setPref(user.value.userPref);
+    if (typeof docUser.value !== "undefined") {
+      setPref(docUser.value.userPref);
       return userPref.value;
     } else {
       const userObj = await getUser(userId);
@@ -173,12 +175,12 @@ export const useUserStore = defineStore("user", () => {
   }
 
   async function getUserPartner(userId: string): Promise<PartnerInfo | undefined> {
-    checkIsCorrectUser(userId);
+    _checkIsCorrectUser(userId);
     if (typeof userPartner.value !== "undefined") {
       return userPartner.value;
     }
-    if (typeof user.value !== "undefined") {
-      setPartner(user.value.partnerInfo);
+    if (typeof docUser.value !== "undefined") {
+      setPartner(docUser.value.partnerInfo);
       return userPartner.value;
     } else {
       const userObj = await getUser(userId);
@@ -190,11 +192,11 @@ export const useUserStore = defineStore("user", () => {
   }
 
   return {
-    createIfNotExist,
+    createDocUserIfNotExist,
     getUser,
     getUserPref,
     getUserPartner,
-    user,
+    docUser,
     userPref,
     userPartner,
     resetUserStore,

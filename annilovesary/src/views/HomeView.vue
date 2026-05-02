@@ -1,14 +1,15 @@
 <script setup lang="ts">
-// import { useAccountStore } from "@/stores/account";
 // import { useAnniversaryStore } from "@/stores/anniversary";
+import AnniversaryCountdown from "@/components/anniversary/AnniversaryCountdown.vue";
+import AnniversaryCountto from "@/components/anniversary/AnniversaryCountto.vue";
 import { type UserPref } from "@/entities/userEntity.types";
 import { useUserStore } from "@/stores/user";
-import { CirclePlus, Pencil, BookMarked, BadgePlus } from "@lucide/vue";
-import { onMounted, reactive } from "vue";
+import { CirclePlus, Clock, ClockArrowUp, Pencil, BookMarked, BadgePlus } from "@lucide/vue";
+import { useNow } from "@vueuse/core";
+import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 
 // const anniversaryStore = useAnniversaryStore();
-// const accountStore = useAccountStore();
 const router = useRouter();
 
 function toCreateFormView() {
@@ -29,6 +30,10 @@ onMounted(async () => {
     Object.assign(pref, userPref);
   }
 });
+
+const now = useNow();
+const showTime = ref(true);
+const showTimeMode = ref<"date-only" | "full" | "time-only">("full");
 
 // async function updateData() {
 //   if (accountStore.user?.uid) {
@@ -53,6 +58,17 @@ onMounted(async () => {
   <main class="flex flex-col items-center my-6 gap-5">
     <div>lang: {{ pref.favLang }}</div>
     <div>theme: {{ pref.favTheme }}</div>
+    <div>
+      Countdown
+      <AnniversaryCountdown
+        :target-date="new Date(2026, 7, 30)"
+        :is-ready="true"
+      ></AnniversaryCountdown>
+    </div>
+    <div>
+      Countto
+      <AnniversaryCountto :is-ready="true" :start-date="new Date(2025, 6, 1)"></AnniversaryCountto>
+    </div>
   </main>
 
   <div class="fab">
@@ -78,5 +94,37 @@ onMounted(async () => {
     <div>
       Edit My Partner<button class="btn btn-lg btn-circle"><Pencil /></button>
     </div>
+  </div>
+
+  <div class="left-fab cursor-pointer">
+    <!-- a focusable div with tabindex is necessary to work on all browsers. role="button" is necessary for accessibility -->
+    <div tabindex="0" role="button" class="flex bg-info rounded-md px-1 py-1 text-amber-100">
+      <div class="flex flex-row items-center w-fit" v-if="showTime">
+        <Clock class="mr-1" />
+        {{
+          showTimeMode === "full"
+            ? now.toString()
+            : showTimeMode === "date-only"
+              ? now.toDateString()
+              : now.toTimeString()
+        }}
+      </div>
+      <div v-else><ClockArrowUp /></div>
+    </div>
+
+    <button
+      :class="`btn btn-sm ${showTime ? 'btn-error' : 'btn-accent'}`"
+      @click="showTime = !showTime"
+    >
+      {{ !showTime ? "Show" : "Hide" }}
+    </button>
+
+    <button class="btn btn-sm" v-if="showTime" @click="showTimeMode = 'date-only'">
+      Date only
+    </button>
+    <button class="btn btn-sm" v-if="showTime" @click="showTimeMode = 'time-only'">
+      Time only
+    </button>
+    <button class="btn btn-sm" v-if="showTime" @click="showTimeMode = 'full'">Full</button>
   </div>
 </template>

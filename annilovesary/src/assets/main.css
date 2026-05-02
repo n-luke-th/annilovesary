@@ -7,3 +7,104 @@
 .input-field-bg {
   @apply input w-full bg-base-content dark:bg-accent-content;
 }
+
+/* copied and adapted from the daisy ui class 'fab'
+
+usage is the same as original 'fab' class.
+*/
+.left-fab {
+  /* @layer daisyui.l1.l2.l3 { */
+  pointer-events: none;
+  position: fixed;
+  inset-inline-end: calc(0.25rem /* 4px */ * 4) /* 1rem = 16px */;
+  bottom: calc(0.25rem /* 4px */ * 4) /* 1rem = 16px */;
+  z-index: 999;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start; /* updated this */
+  gap: calc(0.25rem /* 4px */ * 2) /* 0.5rem = 8px */;
+  font-size: var(--text-sm) /* 0.875rem = 14px */;
+  line-height: var(--tw-leading, var(--text-sm--line-height) /* calc(1.25 / 0.875) ≈ 1.428571 */);
+  white-space: nowrap;
+  left: calc(var(--spacing) * 4) /* 1rem = 16px */; /* added this */
+  > * {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: calc(0.25rem /* 4px */ * 2) /* 0.5rem = 8px */;
+    &:hover,
+    &:has(:focus-visible) {
+      z-index: 1;
+    }
+  }
+  > [tabindex] {
+    &:first-child {
+      position: relative;
+      display: grid;
+      transition-property: opacity, visibility, rotate;
+      transition-duration: 0.2s;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+  .fab-close {
+    position: absolute;
+    inset-inline-end: calc(0.25rem /* 4px */ * 0) /* 0rem = 0px */;
+    bottom: calc(0.25rem /* 4px */ * 0) /* 0rem = 0px */;
+    left: calc(0.25rem /* 4px */ * 0) /* 0rem = 0px */;
+  }
+  .fab-main-action {
+    position: absolute;
+    inset-inline-end: calc(0.25rem /* 4px */ * 0) /* 0rem = 0px */;
+    bottom: calc(0.25rem /* 4px */ * 0) /* 0rem = 0px */;
+  }
+  &:focus-within {
+    &:has(.fab-close),
+    &:has(.fab-main-action) {
+      > [tabindex] {
+        rotate: 90deg;
+        opacity: 0%;
+      }
+    }
+    > [tabindex]:first-child {
+      pointer-events: none;
+    }
+    > :nth-child(n + 2) {
+      visibility: visible;
+      --tw-scale-x: 100%;
+      --tw-scale-y: 100%;
+      --tw-scale-z: 100%;
+      scale: var(--tw-scale-x) var(--tw-scale-y);
+      opacity: 100%;
+    }
+  }
+  > :nth-child(n + 2) {
+    visibility: hidden;
+    --tw-scale-x: 80%;
+    --tw-scale-y: 80%;
+    --tw-scale-z: 80%;
+    scale: var(--tw-scale-x) var(--tw-scale-y);
+    opacity: 0%;
+    transition-property: opacity, scale, visibility;
+    transition-duration: 0.2s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    &.fab-main-action,
+    &.fab-close {
+      --tw-scale-x: 100%;
+      --tw-scale-y: 100%;
+      --tw-scale-z: 100%;
+      scale: var(--tw-scale-x) var(--tw-scale-y);
+    }
+  }
+  > :nth-child(3) {
+    transition-delay: 30ms;
+  }
+  > :nth-child(4) {
+    transition-delay: 60ms;
+  }
+  > :nth-child(5) {
+    transition-delay: 90ms;
+  }
+  > :nth-child(6) {
+    transition-delay: 120ms;
+  }
+}
