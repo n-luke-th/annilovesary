@@ -1,7 +1,10 @@
 <script setup lang="ts">
 // import { useAccountStore } from "@/stores/account";
 // import { useAnniversaryStore } from "@/stores/anniversary";
+import { type UserPref } from "@/entities/userEntity.types";
+import { useUserStore } from "@/stores/user";
 import { CirclePlus, Pencil, BookMarked, BadgePlus } from "@lucide/vue";
+import { onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 
 // const anniversaryStore = useAnniversaryStore();
@@ -14,6 +17,18 @@ function toCreateFormView() {
 function toListView() {
   router.push({ name: "listAnniversary" });
 }
+const pref = reactive<UserPref>({
+  favTheme: null,
+  favLang: null,
+});
+const userStore = useUserStore();
+
+onMounted(async () => {
+  if (userStore.authUser?.uid) {
+    const userPref = await userStore.getUserPref(userStore.authUser?.uid);
+    Object.assign(pref, userPref);
+  }
+});
 
 // async function updateData() {
 //   if (accountStore.user?.uid) {
@@ -35,7 +50,10 @@ function toListView() {
 </script>
 
 <template>
-  <main class="flex flex-col items-center my-6 gap-5"></main>
+  <main class="flex flex-col items-center my-6 gap-5">
+    <div>lang: {{ pref.favLang }}</div>
+    <div>theme: {{ pref.favTheme }}</div>
+  </main>
 
   <div class="fab">
     <!-- a focusable div with tabindex is necessary to work on all browsers. role="button" is necessary for accessibility -->

@@ -31,7 +31,7 @@ import { useAnniversaryStore } from "@/stores/anniversary";
 import DetailsPageLayout from "@/layouts/DetailsPageLayout.vue";
 import AnniversaryCountdown from "@/components/anniversary/AnniversaryCountdown.vue";
 import { Timestamp } from "firebase/firestore";
-import { useAsyncState, useNow, useTitle } from "@vueuse/core";
+import { useAsyncState, useTitle } from "@vueuse/core";
 import { useEventDuration } from "@/composables/useEventDuration";
 
 useTitle("Anniversary Details");

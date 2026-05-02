@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import type { AnniversaryEntity } from "@/entities/anniversaryEntity.types";
-import { useAccountStore } from "@/stores/account";
+import { useUserStore } from "@/stores/user";
 import { useAnniversaryStore } from "@/stores/anniversary";
 import { onMounted, ref } from "vue";
 import AnniversaryDetail from "@/components/anniversary/AnniversaryDetail.vue";
@@ -20,12 +20,12 @@ import { useTitle } from "@vueuse/core";
 useTitle("Your anniversaries");
 
 const anniversaryStore = useAnniversaryStore();
-const accountStore = useAccountStore();
+const userStore = useUserStore();
 
 const anniversaries = ref<AnniversaryEntity[]>([]);
 
 async function getData() {
-  if (accountStore.isAuthenticated && accountStore.user?.uid) {
+  if (userStore.isAuthenticated && userStore.authUser?.uid) {
     const result = await anniversaryStore.getAnniversaries();
     if (result) {
       anniversaries.value = result;

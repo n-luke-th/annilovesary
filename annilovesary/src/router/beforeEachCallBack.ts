@@ -1,4 +1,4 @@
-import { useAccountStore } from "@/stores/account";
+import { useUserStore } from "@/stores/user";
 import type {
   RouteLocationNormalizedGeneric,
   RouteLocationNormalizedLoadedGeneric,
@@ -10,18 +10,18 @@ interface CallBackModel {
 }
 
 export async function authGuard({ to, from }: CallBackModel) {
-  const accountStore = useAccountStore();
-  await accountStore.checkAuthState();
+  const userStore = useUserStore();
+  await userStore.checkAuthState();
   // console.log("Navigating to:", to.name, "Auth:", accountStore.isAuthenticated);
-  if (to.name !== "logoutSuccess" && !accountStore.isAuthenticated && to.name !== "login") {
+  if (to.name !== "logoutSuccess" && !userStore.isAuthenticated && to.name !== "login") {
     return { name: "login", replace: true };
   }
 }
 
 export async function loginRedirect({ to, from }: CallBackModel) {
-  const accountStore = useAccountStore();
+  const userStore = useUserStore();
   // console.log("Navigating to:", to.name, "Auth:", accountStore.isAuthenticated);
-  if (accountStore.isAuthenticated && to.name === "login") {
+  if (userStore.isAuthenticated && to.name === "login") {
     return { name: "home", replace: true };
   }
 }

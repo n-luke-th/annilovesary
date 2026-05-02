@@ -1,16 +1,16 @@
 <template>
-  <div>Logging out...</div>
+  <div class="text-center my-2">Logging out...</div>
 </template>
 
 <script setup lang="ts">
-import { useAccountStore } from "@/stores/account";
+import { useUserStore } from "@/stores/user";
 import { useRouter } from "vue-router";
 
 const onLogout = async () => {
-  const accountStore = useAccountStore();
+  const userStore = useUserStore();
   const router = useRouter();
   try {
-    await accountStore.logout();
+    await userStore.logout();
     router.push({ name: "logoutSuccess", replace: true });
   } catch (error) {
     console.error("LogoutView.vue", error);

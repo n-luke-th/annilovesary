@@ -33,7 +33,7 @@
       </div>
 
       <div class="navbar-end">
-        <ProfileBtn v-if="accountStore.isAuthenticated" />
+        <ProfileBtn v-if="userStore.isAuthenticated" />
       </div>
     </div>
 
@@ -60,9 +60,9 @@ import QuickSettings from "@/components/QuickSettings.vue";
 import ThemeSelectorContent from "@/components/themes/ThemeSelectorContent.vue";
 import { useRouter } from "vue-router";
 import ProfileBtn from "@/components/auth/ProfileBtn.vue";
-import { useAccountStore } from "@/stores/account";
+import { useUserStore } from "@/stores/user";
 const router = useRouter();
-const accountStore = useAccountStore();
+const userStore = useUserStore();
 
 const toLogin = () => {
   router.push({ name: "login" });

@@ -82,7 +82,7 @@
 import { type AnniversaryEntity } from "@/entities/anniversaryEntity.types";
 import type { CreateDoc } from "@/firebaseService/firestore/types/createDoc.types";
 import DetailsPageLayout from "@/layouts/DetailsPageLayout.vue";
-import { useAccountStore } from "@/stores/account";
+import { useUserStore } from "@/stores/user";
 import { useAnniversaryStore } from "@/stores/anniversary";
 import { useTitle } from "@vueuse/core";
 import { computed, reactive, useTemplateRef } from "vue";
@@ -90,7 +90,7 @@ import { computed, reactive, useTemplateRef } from "vue";
 
 useTitle("New Anniversary");
 const anniversaryStore = useAnniversaryStore();
-const accountStore = useAccountStore();
+const userStore = useUserStore();
 // const router = useRouter();
 
 const formData = reactive<CreateDoc<AnniversaryEntity>>({
@@ -124,7 +124,7 @@ const handleSubmit = () => {
 };
 
 async function createData() {
-  if (accountStore.user?.uid) {
+  if (userStore.authUser?.uid) {
     const result = await anniversaryStore.createNewAnniversary(formData);
     console.log("anniversary created", result);
   }

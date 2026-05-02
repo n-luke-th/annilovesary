@@ -46,12 +46,12 @@
 
 <script lang="ts" setup>
 import type { LoginFormData } from "@/common/types/auth.types";
-import { useAccountStore } from "@/stores/account";
+import { useUserStore } from "@/stores/user";
 import { reactive, useTemplateRef } from "vue";
 import { useRouter } from "vue-router";
 
 const formInput = useTemplateRef("login-form");
-const accountStore = useAccountStore();
+const userStore = useUserStore();
 const router = useRouter();
 
 function resetInputs() {
@@ -66,7 +66,7 @@ const formData = reactive<LoginFormData>({
 
 const handleLogin = async () => {
   try {
-    await accountStore.login({ email: formData.email, password: formData.password });
+    await userStore.login({ email: formData.email, password: formData.password });
     router.push({ name: "home", replace: true });
   } catch (error) {
     console.log("login error:", error);
