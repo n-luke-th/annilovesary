@@ -21,6 +21,7 @@ import {
   Timestamp,
   serverTimestamp,
   runTransaction,
+  setDoc,
 } from "firebase/firestore";
 import type {
   DocumentData,
@@ -36,6 +37,7 @@ import type {
   FirestoreSubCollectionName,
 } from "@/common/firestoreCollections";
 import type { QueryBehavior } from "./types/queryBehavior.types";
+import type { CreateDoc } from "./types/createDoc.types";
 
 export class FirestoreService<T extends BaseEntity> {
   private collectionRef: CollectionReference<T>;
@@ -100,6 +102,7 @@ export class FirestoreService<T extends BaseEntity> {
 
   /**
    * Access a sub-collection document with type safety
+   *
    * usage: service.getSubDocRef("inviteId", "claims", "userId")
    */
   getSubDocRef(id: string, subCollection: string, subId: string) {
@@ -108,9 +111,29 @@ export class FirestoreService<T extends BaseEntity> {
 
   /**
    * Create a new document
+   *
+   * @param item the doc item to be created with type {@link CreateDoc<T>} where `T` is the document model
+   * @returns a created doc id of type `string`
    */
-  async create(item: Omit<T, "id" | "createdAt" | "updatedAt">): Promise<string> {
+  async create(item: CreateDoc<T>): Promise<string> {
     const docRef = await addDoc(this.collectionRef, {
+      ...item,
+      updatedAt: serverTimestamp(),
+      createdAt: serverTimestamp(),
+    } as WithFieldValue<T>);
+    return docRef.id;
+  }
+
+  /**
+   * Create a new document with specification of doc id
+   *
+   * @param item the doc item to be created with type {@link CreateDoc<T>} where `T` is the document model
+   * @param docId the doc id to be assigned
+   * @returns a created doc id of type `string`
+   */
+  async createWithId(item: CreateDoc<T>, docId: string): Promise<string> {
+    const docRef = doc(this.collectionRef, docId);
+    await setDoc(docRef, {
       ...item,
       updatedAt: serverTimestamp(),
       createdAt: serverTimestamp(),

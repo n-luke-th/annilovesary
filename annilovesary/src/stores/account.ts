@@ -3,6 +3,7 @@ import { auth } from "@/firebaseService/firebaseService";
 import { type User, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import type { LoginFormData } from "@/common/types/auth.types";
+import { useUserStore } from "./user";
 
 /**
  * option style store for managing account
@@ -43,9 +44,11 @@ export const useAccountStore = defineStore("account", {
       try {
         const result = await signInWithEmailAndPassword(auth, email, password);
         this.user = result.user;
+        const userStore = useUserStore();
+        await userStore.createIfNotExist(result.user.uid);
         console.log("account store: login successful");
       } catch (error) {
-        console.warn(`email + pwd: '${email}', '${password}'`);
+        // console.warn(`email + pwd: '${email}', '${password}'`);
         if (error instanceof FirebaseError) {
           throw new Error(`${error.code}: ${error.message}`);
         } else {
@@ -56,6 +59,8 @@ export const useAccountStore = defineStore("account", {
       }
     },
     async logout() {
+      const userStore = useUserStore();
+      userStore.resetUserStore();
       try {
         await signOut(auth);
         console.log("account store: logout successful");
