@@ -33,25 +33,62 @@ export const useUserStore = defineStore("user", () => {
     isAuthenticated.value = false;
   }
 
-  function _checkIsCorrectUser(userId: string) {
-    if (auth.currentUser?.uid !== userId || auth.currentUser.uid != authUser.value?.uid) {
-      throw new Error("unauthorized access to user data!");
+  const getCurrentUserId = () => auth.currentUser?.uid;
+
+  function _checkIsCorrectUser(userId?: string, deep = true) {
+    if (typeof getCurrentUserId() === "undefined") throw new Error("unauthorized");
+    if (typeof userId != "undefined" && getCurrentUserId() !== userId) {
+      throw new Error("unauthorized");
+    }
+    if (deep) {
+      if (getCurrentUserId() != authUser.value?.uid || docUser.value?.id !== getCurrentUserId()) {
+        throw new Error("unauthorized access to user data!");
+      }
     }
   }
 
-  function setAll(usrObj: UserEntity): UserEntity {
+  /**
+   *
+   * @param userId
+   * @returns
+   */
+  async function _getAndCreateDocUserIfNotExist(userId: string): Promise<UserEntity> {
+    if (docUser.value) {
+      return docUser.value;
+    }
+    const userObject = await userService.getById(userId);
+    if (userObject) {
+      docUser.value = userObject;
+      return docUser.value;
+    } else {
+      // not exist, creating one
+      const newDoc: CreateDoc<UserEntity> = {
+        selectedAnniversaryId: null,
+        partnerInfo: {
+          partnerUserId: null,
+          displayName: null,
+          lastUpdated: serverTimestamp(),
+        },
+        userPref: {
+          favLang: null,
+          favTheme: null,
+        },
+      };
+      const createdDocId = await userService.createWithId(newDoc, userId);
+      const created = await userService.getById(createdDocId);
+      if (created) {
+        return created;
+      }
+      throw new Error("error occured when creating user doc.");
+    }
+  }
+
+  function _setAll(usrObj: UserEntity, authUsr: User, isAuthen = true) {
     docUser.value = usrObj;
     userPartner.value = usrObj.partnerInfo;
     userPref.value = usrObj.userPref;
-    return docUser.value;
-  }
-  function setPref(usrPref: UserPref): UserPref {
-    userPref.value = usrPref;
-    return userPref.value;
-  }
-  function setPartner(usrPartner: PartnerInfo): PartnerInfo {
-    userPartner.value = usrPartner;
-    return userPartner.value;
+    authUser.value = authUsr;
+    isAuthenticated.value = isAuthen;
   }
 
   const getAccountCreationTimeAsDate = () => {
@@ -82,9 +119,9 @@ export const useUserStore = defineStore("user", () => {
 
   async function login({ email, password }: LoginFormData) {
     try {
-      const result = await signInWithEmailAndPassword(auth, email, password);
-      authUser.value = result.user;
-      await createDocUserIfNotExist(result.user.uid);
+      const authUsr = await signInWithEmailAndPassword(auth, email, password);
+      const docUsr = await _getAndCreateDocUserIfNotExist(authUsr.user.uid);
+      _setAll(docUsr, authUsr.user);
       console.log("user store: login successful");
     } catch (error) {
       // console.warn(`email + pwd: '${email}', '${password}'`);
@@ -110,101 +147,73 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  /**
+  /** get docUser and create one if not exist
    *
-   * @param userId
    * @returns
    */
-  async function createDocUserIfNotExist(userId: string): Promise<string | UserEntity> {
-    const userObject = await userService.getById(userId);
-    if (userObject) {
-      setAll(userObject);
-      return docUser.value!;
-    } else {
-      const newDoc: CreateDoc<UserEntity> = {
-        selectedAnniversaryId: null,
-        partnerInfo: {
-          partnerUserId: null,
-          displayName: null,
-          lastUpdated: serverTimestamp(),
-        },
-        userPref: {
-          favLang: null,
-          favTheme: null,
-        },
-      };
-      const createdDocId = await userService.createWithId(newDoc, userId);
-      return createdDocId;
-    }
-  }
-
-  async function getUser(userId: string): Promise<UserEntity> {
-    _checkIsCorrectUser(userId);
+  const getDocUser = async (): Promise<UserEntity> => {
+    _checkIsCorrectUser(undefined, false);
     if (typeof docUser.value !== "undefined") {
-      return docUser.value.id === userId
-        ? docUser.value
-        : Promise.reject(new Error("user id mismatch!"));
-    }
-    const userObj = await userService.getById(userId);
-    if (userObj) {
-      docUser.value = userObj;
       return docUser.value;
-    } else {
-      throw new Error(`user with id ${userId} not found!`);
     }
-  }
+    const uid = getCurrentUserId();
+    if (uid) {
+      return await _getAndCreateDocUserIfNotExist(uid);
+    }
+    throw new Error("unauthorized");
+  };
 
-  async function getUserPref(userId: string): Promise<UserPref | undefined> {
-    _checkIsCorrectUser(userId);
+  const getUserPref = async (): Promise<UserPref | undefined> => {
+    _checkIsCorrectUser(undefined, false);
     if (typeof userPref.value !== "undefined") {
       return userPref.value;
     }
     if (typeof docUser.value !== "undefined") {
-      setPref(docUser.value.userPref);
+      userPref.value = docUser.value.userPref;
       return userPref.value;
     } else {
-      const userObj = await getUser(userId);
+      const userObj = await getDocUser();
       if (userObj) {
-        if (typeof userObj.userPref === "undefined") {
-        }
-        setPref(userObj.userPref);
+        docUser.value = userObj;
+        userPref.value = userObj.userPref;
         return userPref.value;
       }
       return undefined;
     }
-  }
+  };
 
-  async function getUserPartner(userId: string): Promise<PartnerInfo | undefined> {
-    _checkIsCorrectUser(userId);
+  const getUserPartner = async (): Promise<PartnerInfo | undefined> => {
+    _checkIsCorrectUser(undefined, false);
     if (typeof userPartner.value !== "undefined") {
       return userPartner.value;
     }
     if (typeof docUser.value !== "undefined") {
-      setPartner(docUser.value.partnerInfo);
+      userPartner.value = docUser.value.partnerInfo;
       return userPartner.value;
     } else {
-      const userObj = await getUser(userId);
+      const userObj = await getDocUser();
       if (userObj) {
-        setPartner(userObj.partnerInfo);
+        docUser.value = userObj;
+        userPartner.value = userObj.partnerInfo;
         return userPartner.value;
       }
     }
-  }
+  };
 
   return {
-    createDocUserIfNotExist,
-    getUser,
+    getDocUser,
     getUserPref,
     getUserPartner,
-    docUser,
-    userPref,
-    userPartner,
+    // docUser,
+    // userPref,
+    // userPartner,
     resetUserStore,
     login,
     logout,
     checkAuthState,
     getAccountCreationTimeAsDate,
     getAccountLastSignInTimeAsDate,
+    getCurrentUserId,
     isAuthenticated,
     authUser,
   };

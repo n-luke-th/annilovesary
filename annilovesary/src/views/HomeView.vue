@@ -25,15 +25,15 @@ const pref = reactive<UserPref>({
 const userStore = useUserStore();
 
 onMounted(async () => {
-  if (userStore.authUser?.uid) {
-    const userPref = await userStore.getUserPref(userStore.authUser?.uid);
+  if (userStore.getCurrentUserId()) {
+    const userPref = await userStore.getUserPref();
     Object.assign(pref, userPref);
   }
 });
 
 const now = useNow();
 const showTime = ref(true);
-const showTimeMode = ref<"date-only" | "full" | "time-only">("full");
+const showTimeMode = ref<"date-only" | "full" | "time-only">("time-only");
 
 // async function updateData() {
 //   if (accountStore.user?.uid) {
@@ -56,8 +56,8 @@ const showTimeMode = ref<"date-only" | "full" | "time-only">("full");
 
 <template>
   <main class="flex flex-col items-center my-6 gap-5">
-    <div>lang: {{ pref.favLang }}</div>
-    <div>theme: {{ pref.favTheme }}</div>
+    <div>lang: {{ pref.favLang?.toString() }}</div>
+    <div>theme: {{ pref.favTheme?.toString() }}</div>
     <div>
       Countdown
       <AnniversaryCountdown
