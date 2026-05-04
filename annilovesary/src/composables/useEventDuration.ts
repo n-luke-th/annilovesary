@@ -13,21 +13,28 @@ export function useEventDuration(
   endDate?: MaybeRefOrGetter<Date>,
 ) {
   const now = useNow();
+  console.log(
+    "useEventDuration called with startDate:",
+    toValue(startDate),
+    "endDate:",
+    toValue(endDate) ? toValue(endDate) : now.value,
+  );
 
   const since = computed(() => {
     const start = toValue(startDate);
-    const end = endDate ? toValue(endDate) : now.value;
+    const currentClock = now.value;
+    const end = toValue(endDate) ?? currentClock;
 
     if (!(start instanceof Date) || Number.isNaN(start.getTime())) {
       return null;
     }
 
     return intervalToDuration({
-      start,
-      end,
+      start: start < end ? start : end,
+      end: start < end ? end : start,
     });
   });
-
+  console.log("useEventDuration since:", since.value);
   return { since };
 }
 

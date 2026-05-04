@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // import { useAnniversaryStore } from "@/stores/anniversary";
+import AnniversaryCount from "@/components/anniversary/AnniversaryCount.vue";
 import AnniversaryCountdown from "@/components/anniversary/AnniversaryCountdown.vue";
 import AnniversaryCountto from "@/components/anniversary/AnniversaryCountto.vue";
 import { type UserPref } from "@/entities/userEntity.types";
@@ -67,8 +68,10 @@ const showTimeMode = ref<"date-only" | "full" | "time-only">("time-only");
     </div>
     <div>
       Countto
-      <AnniversaryCountto :is-ready="true" :start-date="new Date(2025, 6, 1)"></AnniversaryCountto>
+      <AnniversaryCountto :is-ready="true" :start-date="new Date(2025, 7, 4)"></AnniversaryCountto>
     </div>
+
+    <AnniversaryCount></AnniversaryCount>
   </main>
 
   <div class="fab">

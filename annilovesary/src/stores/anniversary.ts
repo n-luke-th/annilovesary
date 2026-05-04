@@ -4,6 +4,7 @@ import type { AnniversaryEntity } from "@/entities/anniversaryEntity.types";
 import { FirebaseError } from "firebase/app";
 import { anniversaryService } from "@/firebaseService/firestore/services";
 import type { CreateDoc } from "@/firebaseService/firestore/types/createDoc.types";
+import { useUserStore } from "./user";
 
 /**
  * option style store for managing anniversary
@@ -12,6 +13,8 @@ export const useAnniversaryStore = defineStore("anniversary", {
   state: () => ({
     anniversaries: undefined as AnniversaryEntity[] | undefined,
     anniversary: undefined as AnniversaryEntity | undefined,
+    /** user chosen anniversary as default anniversary with their partner */
+    selectedAnniversary: undefined as AnniversaryEntity | undefined,
   }),
   getters: {},
   actions: {
@@ -29,6 +32,9 @@ export const useAnniversaryStore = defineStore("anniversary", {
       }
     },
     async getAnniversary(docId: string): Promise<AnniversaryEntity | undefined> {
+      if (this.anniversary?.id === docId) {
+        return this.anniversary;
+      }
       try {
         const anniversary = await anniversaryService.getById(docId);
         if (anniversary) {
@@ -44,6 +50,25 @@ export const useAnniversaryStore = defineStore("anniversary", {
           throw new Error("unknown error when get an anniversary");
         }
       }
+    },
+
+    /**
+     * get user chosen anniversary as default anniversary with their partner
+     */
+    async getSelectedAnniversary(): Promise<AnniversaryEntity | undefined> {
+      if (this.selectedAnniversary) {
+        return this.selectedAnniversary;
+      }
+      const userStore = useUserStore();
+      const selectedId = (await userStore.getDocUser()).selectedAnniversaryId;
+      if (selectedId) {
+        const a = await anniversaryService.getById(selectedId);
+        if (a) {
+          this.selectedAnniversary = a;
+          return a;
+        }
+      }
+      return undefined;
     },
 
     async getAnniversaries(): Promise<AnniversaryEntity[] | undefined> {

@@ -4,7 +4,29 @@
       <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
         <span class="countdown font-mono text-5xl">
           <span
-            :style="`--value: ${countto?.days?.toString()}`"
+            :style="`--value: ${countto?.years ?? 0}`"
+            aria-live="polite"
+            :aria-label="countto?.years?.toString()"
+            >{{ countto?.years }}</span
+          >
+        </span>
+        years
+      </div>
+      <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
+        <span class="countdown font-mono text-5xl">
+          <span
+            :style="`--value: ${countto?.months ?? 0}`"
+            aria-live="polite"
+            :aria-label="countto?.months?.toString()"
+            >{{ countto?.months }}</span
+          >
+        </span>
+        months
+      </div>
+      <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
+        <span class="countdown font-mono text-5xl">
+          <span
+            :style="`--value: ${countto?.days ?? 0}`"
             aria-live="polite"
             :aria-label="countto?.days?.toString()"
             >{{ countto?.days }}</span
@@ -15,7 +37,7 @@
       <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
         <span class="countdown font-mono text-5xl">
           <span
-            :style="`--value: ${countto?.hours?.toString()}`"
+            :style="`--value: ${countto?.hours ?? 0}`"
             aria-live="polite"
             :aria-label="countto?.hours?.toString()"
             >{{ countto?.hours }}</span
@@ -26,7 +48,7 @@
       <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
         <span class="countdown font-mono text-5xl">
           <span
-            :style="`--value: ${countto?.minutes?.toString()}`"
+            :style="`--value: ${countto?.minutes ?? 0}`"
             aria-live="polite"
             :aria-label="countto?.minutes?.toString()"
             >{{ countto?.minutes }}</span
@@ -37,7 +59,7 @@
       <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
         <span class="countdown font-mono text-5xl">
           <span
-            :style="`--value: ${countto?.seconds?.toString()}`"
+            :style="`--value: ${countto?.seconds ?? 0}`"
             aria-live="polite"
             :aria-label="countto?.seconds?.toString()"
             >{{ countto?.seconds }}</span

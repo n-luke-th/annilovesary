@@ -4,7 +4,7 @@
       <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
         <span class="countdown font-mono text-5xl">
           <span
-            :style="`--value: ${countdown.days.toString()}`"
+            :style="`--value: ${countdown.days ?? 0}`"
             aria-live="polite"
             :aria-label="countdown.days.toString()"
             >{{ countdown.days }}</span
@@ -15,7 +15,7 @@
       <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
         <span class="countdown font-mono text-5xl">
           <span
-            :style="`--value: ${countdown.hours.toString().padStart(3, '0')}`"
+            :style="`--value: ${countdown.hours ?? 0}`"
             aria-live="polite"
             :aria-label="countdown.hours.toString()"
             >{{ countdown.hours }}</span
@@ -26,7 +26,7 @@
       <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
         <span class="countdown font-mono text-5xl">
           <span
-            :style="`--value: ${countdown.minutes.toString()}`"
+            :style="`--value: ${countdown.minutes ?? 0}`"
             aria-live="polite"
             :aria-label="countdown.minutes.toString()"
             >{{ countdown.minutes }}</span
@@ -37,7 +37,7 @@
       <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
         <span class="countdown font-mono text-5xl">
           <span
-            :style="`--value: ${countdown.seconds.toString()}`"
+            :style="`--value: ${countdown.seconds ?? 0}`"
             aria-live="polite"
             :aria-label="countdown.seconds.toString()"
             >{{ countdown.seconds }}</span
