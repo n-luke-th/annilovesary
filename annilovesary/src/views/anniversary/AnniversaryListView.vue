@@ -1,8 +1,16 @@
 <template>
   <DetailsPageLayout
     ><div class="flex flex-col lg:flex-row flex-wrap justify-around items-center gap-2 space-x-1">
-      <div v-for="value in anniversaries" :key="value.id">
-        <AnniversaryDetail :data="value" :show-buttom-btn="true" />
+      <div v-if="anniversaries.length > 0">
+        <div v-for="value in anniversaries" :key="value.id">
+          <AnniversaryDetail :data="value" :show-buttom-btn="true" />
+        </div>
+      </div>
+      <div v-else class="flex flex-col items-center gap-3">
+        No Anniversaries yet
+        <button class="btn btn-primary btn-md">
+          <RouterLink :to="{ name: 'newAnniversary' }">CREATE NOW</RouterLink>
+        </button>
       </div>
     </div>
   </DetailsPageLayout>

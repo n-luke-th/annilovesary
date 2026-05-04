@@ -38,6 +38,18 @@ const router = createRouter({
         },
       ],
     },
+    // {
+    //   path: "/profile",
+    //   name: "profile",
+    //   component: () => import("@/views/profile/BaseProfileView.vue"),
+    //   children: [
+    //     {
+    //       path:"partner",
+    //       name: "partnerProfile",
+    //       component:
+    //     }
+    //   ]
+    // },
 
     {
       path: "/about",
@@ -49,13 +61,18 @@ const router = createRouter({
     },
     {
       path: "/logout",
-      name: "logout",
-      component: () => import("@/views/auth/LogoutView.vue"),
-    },
-    {
-      path: "/logout-success",
-      name: "logoutSuccess",
-      component: () => import("@/views/auth/LogoutSuccessView.vue"),
+      children: [
+        {
+          path: "",
+          name: "logout",
+          component: () => import("@/views/auth/LogoutView.vue"),
+        },
+        {
+          path: "success",
+          name: "logoutSuccess",
+          component: () => import("@/views/auth/LogoutSuccessView.vue"),
+        },
+      ],
     },
   ],
 });

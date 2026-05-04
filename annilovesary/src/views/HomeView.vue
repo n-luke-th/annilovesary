@@ -19,6 +19,11 @@ function toCreateFormView() {
 function toListView() {
   router.push({ name: "listAnniversary" });
 }
+function toProfileView() {
+  router.push({
+    name: "profile",
+  });
+}
 const pref = reactive<UserPref>({
   favTheme: null,
   favLang: null,
@@ -95,7 +100,9 @@ const showTimeMode = ref<"date-only" | "full" | "time-only">("time-only");
       </button>
     </div>
     <div>
-      Edit My Partner<button class="btn btn-lg btn-circle"><Pencil /></button>
+      Edit My Partner<button class="btn btn-lg btn-circle" @click="toProfileView">
+        <Pencil />
+      </button>
     </div>
   </div>
 

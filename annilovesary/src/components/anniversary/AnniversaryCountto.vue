@@ -4,7 +4,7 @@
       <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
         <span class="countdown font-mono text-5xl">
           <span
-            :style="`--value: ${countto?.years ?? 0}`"
+            :style="`--value: ${countto?.years ?? 0}; --digits: 1`"
             aria-live="polite"
             :aria-label="countto?.years?.toString()"
             >{{ countto?.years }}</span
@@ -15,7 +15,7 @@
       <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
         <span class="countdown font-mono text-5xl">
           <span
-            :style="`--value: ${countto?.months ?? 0}`"
+            :style="`--value: ${countto?.months ?? 0};`"
             aria-live="polite"
             :aria-label="countto?.months?.toString()"
             >{{ countto?.months }}</span
