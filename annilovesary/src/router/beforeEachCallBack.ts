@@ -13,7 +13,8 @@ export async function authGuard({ to, from }: CallBackModel) {
   const userStore = useUserStore();
   await userStore.checkAuthState();
   // console.log("Navigating to:", to.name, "Auth:", accountStore.isAuthenticated);
-  if (to.name !== "logoutSuccess" && !userStore.isAuthenticated && to.name !== "login") {
+  if (to.meta.requiresAuth && !userStore.isAuthenticated && to.name !== "login") {
+    // if (to.name !== "logoutSuccess" && !userStore.isAuthenticated && to.name !== "login") {
     return { name: "login", replace: true };
   }
 }

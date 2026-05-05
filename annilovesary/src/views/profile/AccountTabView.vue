@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>This is Account profile tab</div>
 </template>
 
 <script setup lang="ts">

@@ -16,10 +16,16 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: "/anniversary",
       name: "anniversary",
+      meta: {
+        requiresAuth: true,
+      },
       children: [
         {
           path: "new",
@@ -42,21 +48,27 @@ const router = createRouter({
       path: "/profile",
       name: "profile",
       component: () => import("@/views/profile/BaseProfileView.vue"),
+      meta: {
+        requiresAuth: true,
+      },
       children: [
         {
           path: "partner",
           name: "partnerProfile",
-          component: () => import("@/views/profile/PartnerTabView.vue"),
+          components: {
+            default: () => import("@/views/profile/PartnerTabView.vue"),
+            // bottomBar: ,
+          },
         },
         {
           path: "account",
           name: "accountProfile",
-          component: () => import("@/views/profile/AccountTabView.vue"),
+          components: { default: () => import("@/views/profile/AccountTabView.vue") },
         },
         {
           path: "pref",
           name: "prefProfile",
-          component: () => import("@/views/profile/PrefTabView.vue"),
+          components: { default: () => import("@/views/profile/PrefTabView.vue") },
         },
       ],
     },
@@ -76,6 +88,9 @@ const router = createRouter({
           path: "",
           name: "logout",
           component: () => import("@/views/auth/LogoutView.vue"),
+          meta: {
+            requiresAuth: true,
+          },
         },
         {
           path: "success",
