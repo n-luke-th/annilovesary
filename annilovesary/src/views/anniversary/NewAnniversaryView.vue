@@ -88,7 +88,7 @@ import { useTitle } from "@vueuse/core";
 import { computed, reactive, useTemplateRef } from "vue";
 // import { useRouter } from "vue-router";
 
-useTitle("New Anniversary");
+useTitle("New Anniversary - Annilovesary");
 const anniversaryStore = useAnniversaryStore();
 const userStore = useUserStore();
 // const router = useRouter();

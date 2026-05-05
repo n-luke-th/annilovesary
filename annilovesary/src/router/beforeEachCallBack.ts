@@ -20,8 +20,17 @@ export async function authGuard({ to, from }: CallBackModel) {
 
 export async function loginRedirect({ to, from }: CallBackModel) {
   const userStore = useUserStore();
+  await userStore.checkAuthState();
   // console.log("Navigating to:", to.name, "Auth:", accountStore.isAuthenticated);
   if (userStore.isAuthenticated && to.name === "login") {
     return { name: "home", replace: true };
+  }
+}
+
+export async function logoutGuard({ to, from }: CallBackModel) {
+  const userStore = useUserStore();
+  await userStore.checkAuthState();
+  if (userStore.isAuthenticated && to.name === "logoutSuccess") {
+    return from.fullPath;
   }
 }

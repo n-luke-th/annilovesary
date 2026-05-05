@@ -21,7 +21,7 @@ function toListView() {
 }
 function toProfileView() {
   router.push({
-    name: "profile",
+    name: "partnerProfile",
   });
 }
 const pref = reactive<UserPref>({

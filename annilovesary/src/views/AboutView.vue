@@ -20,6 +20,9 @@
 
 <script lang="ts" setup>
 import pkg from "@/../package.json";
+import { useTitle } from "@vueuse/core";
+
+useTitle("About - Annilovesary");
 
 const appVersion = pkg.version;
 const deps = pkg.dependencies;

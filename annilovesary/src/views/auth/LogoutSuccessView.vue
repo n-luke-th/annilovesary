@@ -5,5 +5,9 @@
     <RouterLink to="/login" class="btn btn-primary">LOGIN</RouterLink>
   </div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useTitle } from "@vueuse/core";
+
+useTitle("Logged out - Annilovesary");
+</script>
 <style></style>

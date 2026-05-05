@@ -25,7 +25,7 @@ import AnniversaryDetail from "@/components/anniversary/AnniversaryDetail.vue";
 import DetailsPageLayout from "@/layouts/DetailsPageLayout.vue";
 import { useTitle } from "@vueuse/core";
 
-useTitle("Your anniversaries");
+useTitle("Your anniversaries - Annilovesary");
 
 const anniversaryStore = useAnniversaryStore();
 const userStore = useUserStore();

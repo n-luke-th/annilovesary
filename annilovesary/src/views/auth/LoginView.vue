@@ -47,8 +47,11 @@
 <script lang="ts" setup>
 import type { LoginFormData } from "@/common/types/auth.types";
 import { useUserStore } from "@/stores/user";
+import { useTitle } from "@vueuse/core";
 import { reactive, useTemplateRef } from "vue";
 import { useRouter } from "vue-router";
+
+useTitle("Login - Annilovesary");
 
 const formInput = useTemplateRef("login-form");
 const userStore = useUserStore();

@@ -18,10 +18,21 @@
       <!-- <p class="py-4">Press ESC key or click the 'x' button above to close</p> -->
       <div class="gap-2 mt-5">
         <div class="flex flex-row justify-around">
-          <button type="button" @click="onLogout" class="btn btn-error mx-3">LOGOUT</button>
-          <button class="btn btn-primary">Edit Profile</button>
+          <RouterLink :to="{ name: 'logout' }" class="btn btn-error mx-2">LOGOUT</RouterLink>
+          <RouterLink
+            :to="{ name: 'profile' }"
+            class="btn btn-primary"
+            @click="
+              () => {
+                const _ = defaultDocument?.getElementById('profileModal') as HTMLDialogElement;
+                _.close();
+              }
+            "
+            >Edit Profile</RouterLink
+          >
         </div>
       </div>
+      <!-- </form> -->
     </div>
     <!-- form below enables close when click outside of the modal -->
     <form method="dialog" class="modal-backdrop">
@@ -31,11 +42,8 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
-const router = useRouter();
-function onLogout() {
-  router.push({ name: "logout" });
-}
+import { defaultDocument } from "@vueuse/core";
+import { document } from "postcss";
 </script>
 
 <style scoped></style>

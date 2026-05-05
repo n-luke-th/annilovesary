@@ -4,7 +4,9 @@
 
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
+import { useTitle } from "@vueuse/core";
 import { useRouter } from "vue-router";
+useTitle("Logging out - Annilovesary");
 
 const onLogout = async () => {
   const userStore = useUserStore();

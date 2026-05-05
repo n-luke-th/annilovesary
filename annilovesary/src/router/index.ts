@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
-import { authGuard, loginRedirect } from "./beforeEachCallBack";
+import { authGuard, loginRedirect, logoutGuard } from "./beforeEachCallBack";
 import AnniversaryDetailView from "@/views/anniversary/AnniversaryDetailView.vue";
 
 const router = createRouter({
@@ -38,18 +38,28 @@ const router = createRouter({
         },
       ],
     },
-    // {
-    //   path: "/profile",
-    //   name: "profile",
-    //   component: () => import("@/views/profile/BaseProfileView.vue"),
-    //   children: [
-    //     {
-    //       path:"partner",
-    //       name: "partnerProfile",
-    //       component:
-    //     }
-    //   ]
-    // },
+    {
+      path: "/profile",
+      name: "profile",
+      component: () => import("@/views/profile/BaseProfileView.vue"),
+      children: [
+        {
+          path: "partner",
+          name: "partnerProfile",
+          component: () => import("@/views/profile/PartnerTabView.vue"),
+        },
+        {
+          path: "account",
+          name: "accountProfile",
+          component: () => import("@/views/profile/AccountTabView.vue"),
+        },
+        {
+          path: "pref",
+          name: "prefProfile",
+          component: () => import("@/views/profile/PrefTabView.vue"),
+        },
+      ],
+    },
 
     {
       path: "/about",
@@ -85,6 +95,10 @@ router.beforeEach(async (to, from) => {
 router.beforeEach(async (to, from) => {
   // add beforeEach callback here.
   return await loginRedirect({ from: from, to: to });
+});
+
+router.beforeEach(async (to, from) => {
+  return await logoutGuard({ from: from, to: to });
 });
 
 export default router;
