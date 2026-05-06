@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="btn btn-outline mx-2 md:mx-15 mt-4 md:mt-8 mb-1 md:md-2"
+    class="btn btn-outline mx-2 md:mx-15 mt-3 md:mt-6 mb-1 md:md-2"
     @click="goBack"
   >
     <ArrowBigLeftDash />

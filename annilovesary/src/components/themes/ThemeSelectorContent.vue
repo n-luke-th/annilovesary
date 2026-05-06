@@ -21,12 +21,13 @@
         <LucideIconCircleCheckBig v-if="themeStore.currentTheme === 'valentine'" :fill="sky600"
       /></a>
     </li>
-    <li>
+    <!-- <li>
+      also need to enable in style.css if want it back
       <a @click="themeStore.setTheme('halloween')" class="justify-between"
         >Halloween
         <LucideIconCircleCheckBig v-if="themeStore.currentTheme === 'halloween'" :fill="sky600"
       /></a>
-    </li>
+    </li> -->
     <li>
       <a @click="themeStore.setTheme('sunset')" class="justify-between"
         >Sunset

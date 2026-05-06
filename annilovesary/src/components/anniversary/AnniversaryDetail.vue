@@ -25,7 +25,7 @@
             <select
               style="pointer-events: none"
               :value="data.anniversaryType"
-              class="select select-bordered w-full input-field-bg"
+              class="select select-bordered w-full inp-full"
             >
               <option disabled value="">Pick an anniversary type</option>
               <option value="first_met">First Met</option>
@@ -44,7 +44,7 @@
               :value="data.customTypeValue"
               type="text"
               placeholder="no custom type value yet..."
-              class="input-field-bg select-all"
+              class="inp-full select-all"
               readonly="true"
             />
           </div>
@@ -53,12 +53,7 @@
             <label class="label">
               <span class="label-text font-semibold">Anniversary Date</span>
             </label>
-            <input
-              :value="convertedDate"
-              type="text"
-              class="input-field-bg select-all"
-              readonly="true"
-            />
+            <input :value="convertedDate" type="text" class="inp-full select-all" readonly="true" />
           </div>
 
           <fieldset class="fieldset">
@@ -67,7 +62,7 @@
             </label>
             <textarea
               :value="data.desc"
-              class="textarea textarea-bordered bg-base-content dark:bg-accent-content"
+              class="textarea textarea-bordered"
               placeholder="no description yet..."
               readonly="true"
             ></textarea>

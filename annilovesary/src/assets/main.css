@@ -4,8 +4,8 @@
   @apply bg-amber-400 dark:bg-base-200;
 }
 
-.input-field-bg {
-  @apply input w-full bg-base-content dark:bg-accent-content;
+.inp-full {
+  @apply input w-full;
 }
 
 /* copied and adapted from the daisy ui class 'fab'

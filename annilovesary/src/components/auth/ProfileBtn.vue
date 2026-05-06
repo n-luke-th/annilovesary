@@ -20,7 +20,7 @@
         <div class="flex flex-row justify-around">
           <RouterLink :to="{ name: 'logout' }" class="btn btn-error mx-2">LOGOUT</RouterLink>
           <RouterLink
-            :to="{ name: 'profile' }"
+            :to="{ name: 'accountProfile' }"
             class="btn btn-primary"
             @click="
               () => {
@@ -43,7 +43,6 @@
 
 <script setup lang="ts">
 import { defaultDocument } from "@vueuse/core";
-import { document } from "postcss";
 </script>
 
 <style scoped></style>

@@ -12,7 +12,7 @@
               </label>
               <select
                 v-model="formData.anniversaryType"
-                class="select select-bordered w-full input-field-bg"
+                class="select select-bordered w-full inp-full"
                 required="true"
               >
                 <option disabled value="">Pick an anniversary type</option>
@@ -32,7 +32,7 @@
                 v-model="formData.customTypeValue"
                 type="text"
                 placeholder="honeymoon, etc."
-                class="input-field-bg"
+                class="inp-full"
               />
             </div>
 
@@ -50,7 +50,7 @@
               <input
                 v-model="formattedDate"
                 :type="dateSelectorType"
-                class="input-field-bg"
+                class="inp-full"
                 required="true"
               />
             </div>

@@ -1,14 +1,7 @@
 @import "tailwindcss";
 @plugin "daisyui" {
   root: "#app";
-  themes:
-    valentine --default,
-    light,
-    dark,
-    sunset,
-    cupcake,
-    halloween --prefersdark,
-    forest;
+  themes: valentine, light, dark, sunset, cupcake, forest;
 }
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
