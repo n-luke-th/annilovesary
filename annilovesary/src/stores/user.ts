@@ -4,7 +4,15 @@ import { auth } from "@/firebaseService/firebaseService";
 import { userService } from "@/firebaseService/firestore/services";
 import type { CreateDoc } from "@/firebaseService/firestore/types/createDoc.types";
 import { FirebaseError } from "firebase/app";
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut, type User } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+  updatePassword,
+  updateEmail,
+  type User,
+} from "firebase/auth";
 import { serverTimestamp } from "firebase/firestore";
 import { defineStore } from "pinia";
 import { ref } from "vue";
@@ -32,6 +40,10 @@ export const useUserStore = defineStore("user", () => {
     authUser.value = undefined;
     isAuthenticated.value = false;
   }
+
+  // function isUserStoreInitialized() {
+  //   return typeof authUser.value !== "undefined" && typeof docUser.value !== "undefined";
+  // }
 
   const getCurrentUserId = () => auth.currentUser?.uid;
 
@@ -147,6 +159,54 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  /** update user account's profile (display name & profile picture)
+   * @remarks please consult {@link updateProfile} method from Firebase
+   *
+   * @param object an object of `displayName` and `photoUrl` to be updated
+   * @returns `true` if operation is success, `false` otherwise
+   */
+  async function updateUserProfile({
+    displayName,
+    photoUrl,
+  }: {
+    displayName?: string;
+    photoUrl?: string;
+  }): Promise<boolean> {
+    if (authUser.value) {
+      await updateProfile(authUser.value, { photoURL: photoUrl, displayName: displayName });
+      return true;
+    }
+    return false;
+  }
+  /**
+   * update user account's password
+   * @remarks please consult {@link updatePassword} method from Firebase
+   *
+   * @param newPwd a new user's choosen password
+   * @returns `true` if operation is success, `false` otherwise
+   */
+  async function updateUserPassword(newPwd: string): Promise<boolean> {
+    if (authUser.value) {
+      await updatePassword(authUser.value, newPwd);
+      return true;
+    }
+    return false;
+  }
+
+  /** update user account's email
+   * @remarks please consult {@link updateEmail} method from Firebase
+   *
+   * @param newEmail a new user's choosen email
+   * @returns `true` if operation is success, `false` otherwise
+   */
+  async function updateUserEmail(newEmail: string): Promise<boolean> {
+    if (authUser.value) {
+      await updateEmail(authUser.value, newEmail);
+      return true;
+    }
+    return false;
+  }
+
   /** get docUser and create one if not exist
    *
    * @returns
@@ -200,6 +260,15 @@ export const useUserStore = defineStore("user", () => {
     }
   };
 
+  async function setDefaultAnniversary(anniversaryDocId: string) {
+    const uid = getCurrentUserId();
+    if (uid) {
+      await userService.update(uid, {
+        selectedAnniversaryId: anniversaryDocId,
+      });
+    }
+  }
+
   return {
     getDocUser,
     getUserPref,
@@ -216,5 +285,9 @@ export const useUserStore = defineStore("user", () => {
     getCurrentUserId,
     isAuthenticated,
     authUser,
+    updateUserProfile,
+    updateUserPassword,
+    updateUserEmail,
+    setDefaultAnniversary,
   };
 });

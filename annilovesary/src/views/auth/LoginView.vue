@@ -10,9 +10,7 @@
         <fieldset
           class="max-w-lg w-full h-fit fieldset bg-linear-to-b from-base-content/10 to-neutral/20 dark:bg-base-200 border-base-100 dark:border-base-content rounded-box border p-4"
         >
-          <legend
-            class="fieldset-legend text-center text-3xl text-base-200 dark:text-neutral-content"
-          >
+          <legend class="fieldset-legend text-center text-3xl dark:text-neutral-content">
             Login
           </legend>
 

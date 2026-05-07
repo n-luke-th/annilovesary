@@ -165,7 +165,7 @@ export class FirestoreService<T extends BaseEntity> {
    * Get all documents
    *
    * @param [constraints=[]] {@link QueryConstraint} - optionally specifies filters/ordering
-   * @param [behavior="default"] {@link QueryBehavior} - optionally defines how Firestore query the data
+   * @param [behavior="default"] {@linkcode QueryBehavior} - optionally defines how Firestore query the data
    *
    * @returns A `Promise` that resolves with the type `T` of results of the query.
    */
@@ -192,7 +192,7 @@ export class FirestoreService<T extends BaseEntity> {
   /**
    * Update an existing document
    */
-  async update(id: string, item: Partial<T>): Promise<void> {
+  async update(id: string, item: Omit<Partial<T>, "id" | "createdAt">): Promise<void> {
     const docRef = doc(this.collectionRef, id);
     await updateDoc(docRef, { ...item, updatedAt: serverTimestamp() } as UpdateData<T>);
   }
