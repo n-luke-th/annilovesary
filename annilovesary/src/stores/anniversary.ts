@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { FirestoreError } from "firebase/firestore";
+import { FirestoreError, where } from "firebase/firestore";
 import type { AnniversaryEntity } from "@/entities/anniversaryEntity.types";
 import { FirebaseError } from "firebase/app";
 import { anniversaryService } from "@/firebaseService/firestore/services";
@@ -71,21 +71,30 @@ export const useAnniversaryStore = defineStore("anniversary", {
       return undefined;
     },
 
+    /** get all anniversaries that current user is being part of
+     *
+     * @returns
+     */
     async getAnniversaries(): Promise<AnniversaryEntity[] | undefined> {
-      try {
-        const anniversaries = await anniversaryService.getAll();
-        if (anniversaries) {
-          this.anniversaries = anniversaries;
-          return anniversaries;
+      const uid = useUserStore().getCurrentUserId();
+      if (uid) {
+        try {
+          const anniversaries = await anniversaryService.getAll([
+            where("partnerIds", "array-contains", uid),
+          ]);
+          if (anniversaries) {
+            this.anniversaries = anniversaries;
+            return anniversaries;
+          }
+          return undefined;
+        } catch (error) {
+          if (error instanceof FirestoreError) {
+            console.error(`${error.code}: ${error.message}`);
+          } else {
+            console.error("unknown error raised!", error);
+          }
+          return undefined;
         }
-        return undefined;
-      } catch (error) {
-        if (error instanceof FirestoreError) {
-          console.error(`${error.code}: ${error.message}`);
-        } else {
-          console.error("unknown error raised!", error);
-        }
-        return undefined;
       }
     },
 

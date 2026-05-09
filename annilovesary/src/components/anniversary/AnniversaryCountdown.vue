@@ -55,7 +55,7 @@ import { computed } from "vue";
 
 const props = defineProps({
   targetDate: { type: Date, required: true },
-  isReady: { type: Boolean, required: true },
+  // isReady: { type: Boolean, required: true },
 });
 
 const { countdown } = useEventCountdown(computed(() => props.targetDate));

@@ -5,7 +5,7 @@
       v-if="isError === false"
     >
       <AnniversaryDetail :data="data" />
-      <div class="my-2 text-gray-500">
+      <!-- <div class="my-2 text-gray-500">
         {{ since?.days }} Days since anniversary date.
         <br />
         {{ since?.years }} Years since anniversary date.
@@ -19,24 +19,24 @@
         {{ since?.minutes }} Minutes since anniversary date.
         <AnniversaryCountdown :target-date="getAnniDate" :is-ready="isReady" />
 
-        <!-- {{ $route.params }} -->
-      </div>
+        {{ $route.params }}
+      </div> -->
+      <AnniversaryCount :target-date="data.date"></AnniversaryCount>
     </div>
     <div v-else class="text-center">You are not authorized!</div>
   </DetailsPageLayout>
 </template>
 
 <script setup lang="ts">
+import AnniversaryCount from "@/components/anniversary/AnniversaryCount.vue";
 import type { AnniversaryEntity } from "@/entities/anniversaryEntity.types";
 import AnniversaryDetail from "@/components/anniversary/AnniversaryDetail.vue";
 import { useRoute } from "vue-router";
-import { computed, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import { useAnniversaryStore } from "@/stores/anniversary";
 import DetailsPageLayout from "@/layouts/DetailsPageLayout.vue";
-import AnniversaryCountdown from "@/components/anniversary/AnniversaryCountdown.vue";
 import { Timestamp } from "firebase/firestore";
 import { useAsyncState, useTitle } from "@vueuse/core";
-import { useEventDuration } from "@/composables/useEventDuration";
 import { useUserStore } from "@/stores/user";
 
 useTitle("Anniversary Details - Annilovesary");
@@ -55,12 +55,6 @@ const data = reactive<AnniversaryEntity>({
 const anniversaryStore = useAnniversaryStore();
 const userStore = useUserStore();
 const isError = ref(false);
-const { since } = useEventDuration(() => data.date);
-
-const getAnniDate = computed(() => {
-  const currentYear = new Date().getFullYear();
-  return new Date(currentYear, data.date.getMonth(), data.date.getDate());
-});
 
 async function getData(docId: string) {
   try {

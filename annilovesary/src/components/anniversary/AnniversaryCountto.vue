@@ -77,7 +77,7 @@ import { computed } from "vue";
 
 const props = defineProps({
   startDate: { type: Date, required: true },
-  isReady: { type: Boolean, required: true },
+  // isReady: { type: Boolean, required: true },
 });
 
 const { since: countto } = useEventDuration(computed(() => props.startDate));

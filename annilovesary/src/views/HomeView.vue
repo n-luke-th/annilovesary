@@ -1,8 +1,5 @@
 <script setup lang="ts">
-// import { useAnniversaryStore } from "@/stores/anniversary";
 import AnniversaryCount from "@/components/anniversary/AnniversaryCount.vue";
-import AnniversaryCountdown from "@/components/anniversary/AnniversaryCountdown.vue";
-import AnniversaryCountto from "@/components/anniversary/AnniversaryCountto.vue";
 import { type UserPref } from "@/entities/userEntity.types";
 import { useUserStore } from "@/stores/user";
 import { CirclePlus, Clock, ClockArrowUp, Pencil, BookMarked, BadgePlus } from "@lucide/vue";
@@ -10,7 +7,6 @@ import { useNow } from "@vueuse/core";
 import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 
-// const anniversaryStore = useAnniversaryStore();
 const router = useRouter();
 
 function toCreateFormView() {
@@ -62,9 +58,7 @@ const showTimeMode = ref<"date-only" | "full" | "time-only">("time-only");
 
 <template>
   <main class="flex flex-col items-center my-6 gap-5">
-    <div>lang: {{ pref.favLang?.toString() }}</div>
-    <div>theme: {{ pref.favTheme?.toString() }}</div>
-    <div>
+    <!-- <div>
       Countdown
       <AnniversaryCountdown
         :target-date="new Date(2026, 7, 30)"
@@ -74,9 +68,9 @@ const showTimeMode = ref<"date-only" | "full" | "time-only">("time-only");
     <div>
       Countto
       <AnniversaryCountto :is-ready="true" :start-date="new Date(2025, 7, 4)"></AnniversaryCountto>
-    </div>
+    </div> -->
 
-    <AnniversaryCount></AnniversaryCount>
+    <AnniversaryCount />
   </main>
 
   <div class="fab">
