@@ -41,4 +41,4 @@ type InviteVisibility = "private" | "public" | "other";
 /**
  * allowed values to distinguish the Invite type
  */
-type InviteType = "normal" | "campaign" | "other";
+type InviteType = "has-anniversary" | "be-partner" | "campaign" | "other";

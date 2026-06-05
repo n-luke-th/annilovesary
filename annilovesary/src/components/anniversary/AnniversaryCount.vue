@@ -9,7 +9,12 @@
     </div>
     <AnniversaryCountto v-if="countMode === 'since' && getDate" :start-date="getDate" />
     <AnniversaryCountdown v-else-if="countMode === 'countdown' && getDate" :target-date="getDate" />
-    <div v-else>You haven't pick default anniversary with your partner.</div>
+    <div v-else class="flex flex-col space-y-1">
+      <p>You haven't pick default anniversary with your partner.</p>
+      <button class="btn btn-accent btn-md">
+        <RouterLink :to="{ name: 'partnerProfile' }">Pick NOW</RouterLink>
+      </button>
+    </div>
   </div>
 </template>
 
