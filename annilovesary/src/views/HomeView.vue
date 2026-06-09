@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import AnniversaryCount from "@/components/anniversary/AnniversaryCount.vue";
+import type { AnniversaryEntity } from "@/entities/anniversaryEntity.types";
 import { type UserPref } from "@/entities/userEntity.types";
+import { useAnniversaryStore } from "@/stores/anniversary";
 import { useUserStore } from "@/stores/user";
 import { CirclePlus, Clock, ClockArrowUp, Pencil, BookMarked, BadgePlus } from "@lucide/vue";
 import { useNow } from "@vueuse/core";
@@ -24,36 +26,27 @@ const pref = reactive<UserPref>({
   favTheme: null,
   favLang: null,
 });
+const defaultAnniId = ref<string | undefined>(undefined);
+const data = ref<AnniversaryEntity | undefined>(undefined);
 const userStore = useUserStore();
+const anniversaryStore = useAnniversaryStore();
 
 onMounted(async () => {
   if (userStore.getCurrentUserId()) {
     const userPref = await userStore.getUserPref();
     Object.assign(pref, userPref);
+    const userDoc = await userStore.getDocUser();
+    defaultAnniId.value = userDoc.selectedAnniversaryId ?? undefined;
+    if (defaultAnniId.value) {
+      const result = await anniversaryStore.getAnniversary(defaultAnniId.value);
+      data.value = result;
+    }
   }
 });
 
 const now = useNow();
 const showTime = ref(true);
 const showTimeMode = ref<"date-only" | "full" | "time-only">("time-only");
-
-// async function updateData() {
-//   if (accountStore.user?.uid) {
-//     const data: AnniversaryWriteEntity = {
-//       date: new Date(),
-//       anniversaryType: "birthday",
-//       customTypeValue: Math.random().toString(),
-//       mt: {
-//         createdAt: new Date(),
-//         updatedAt: new Date(),
-//         createdByUid: accountStore.user?.uid,
-//         updatedByUid: "",
-//       },
-//     };
-//     const result = await anniversaryStore.updateAnniversary("JaylY1IMnx5Z4dHD0VOL", data);
-//     console.log("anniversary updated", result);
-//   }
-// }
 </script>
 
 <template>
@@ -70,7 +63,7 @@ const showTimeMode = ref<"date-only" | "full" | "time-only">("time-only");
       <AnniversaryCountto :is-ready="true" :start-date="new Date(2025, 7, 4)"></AnniversaryCountto>
     </div> -->
 
-    <AnniversaryCount />
+    <AnniversaryCount :target-date="data?.date" />
   </main>
 
   <div class="fab">
